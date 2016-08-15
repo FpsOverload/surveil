@@ -32,7 +32,7 @@ class ServerStart extends Command {
 
         $output = $this->output;
 
-        (new Process('/home/oliver/cod4/cod4x18_dedrun +exec server.cfg +map mp_crossfire'))->setTimeout(null)>run(function($type, $line) use ($output)
+        (new Process('/home/oliver/cod4/cod4x18_dedrun +exec server.cfg +map mp_crossfire'))->setTimeout(null)->run(function($type, $line) use ($output)
         {
             $output->write("Line: " . $line);
         });
