@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
-class ServerStart extends Command {
+class ServerStart extends ServerCommand {
     
     /**
      * The console command name.
@@ -26,6 +26,8 @@ class ServerStart extends Command {
      */
     protected $description = "Start a game server";
 
+    protected $server = [];
+
     /**
      * Execute the console command.
      *
@@ -34,7 +36,7 @@ class ServerStart extends Command {
     public function fire()
     {
         try {
-            $server = $this->getServer();
+            $this->server = $this->getServer();
         } catch(\Exception $e) {
             $this->error($e->getMessage());
             return;
@@ -45,26 +47,24 @@ class ServerStart extends Command {
         }
 
         return $this->startSupervisedServer();
-
     }
 
     protected function startSupervisedServer()
     {
-        // Call supervisor start for server id..
-        // $path = "";
-        // $command = "cd /home/oliver/cod4/ && ./cod4x18_dedrun +exec server.cfg +map mp_crossfire";
-
-        // (new Process($command))->setTimeout(null)->run(function($type, $line) use ($output)
-        // {
-        //     $output->write("Line: " . $line);
-        // });
+        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->argument('serverId'));
+        (new Process($command))->setTimeout(null)->run(function($type, $line)
+        {
+            $this->info($line);
+        });
     }
 
     protected function startUnsupervisedServer()
     {
-        // Get the command, cd, run, etc..
-        // $command = "screen -options..";
-        // $process = new Process();
+        $command = 'cd ' . $this->server['path'] . ' && ./' . $this->server['binary'] . ' ' . $this->server['startup_params'];
+        (new Process($command))->setTimeout(null)->run(function($type, $line)
+        {
+            $this->info($line);
+        });
     }
 
 }

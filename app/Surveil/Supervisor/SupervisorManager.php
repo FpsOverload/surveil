@@ -16,7 +16,7 @@ class SupervisorManager {
         $config = new Configuration;
 
         $servers->each(function($server, $id) use ($config) {
-            $section = new Program(config('surveil.supervisor_prefix') . $id, $this->optionForServer($server));
+            $section = new Program(config('surveil.supervisor_prefix') . $id, $this->optionForServer($server, $id));
             $config->addSection($section);
         });
 
@@ -32,13 +32,18 @@ class SupervisorManager {
         return true;
     }
 
-    protected function optionForServer($server)
+    public function supervisorProgramForServer($id)
+    {
+        return config('surveil.supervisor_prefix') . $id;
+    }
+
+    protected function optionForServer($server, $id)
     {
         return [
             'autorestart' => false,
             'autostart' => false,
-            'command' => "\"./" . $server['binary'] . " " . $server['startup_params'] . '"',
-            'directory' => '"' . $server['path'] . '"',
+            'command' => base_path('artisan server:start --unsupervised ' . $id),
+            'directory' => base_path(),
             'user' => config('surveil.supervisor_user')
         ];
     }
