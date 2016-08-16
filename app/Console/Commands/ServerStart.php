@@ -1,4 +1,6 @@
-<?php namespace App\Console\Commands;
+<?php 
+
+namespace App\Console\Commands;
 
 use App\Exceptions\InvalidServerException;
 use Illuminate\Console\Command;
