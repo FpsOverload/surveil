@@ -2,13 +2,6 @@
 
 namespace App\Console\Commands\Server;
 
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\File;
-use Indigo\Ini\Renderer;
-use Supervisor\Configuration\Configuration;
-use Supervisor\Configuration\Section\Program;
-use Supervisor\Configuration\Section\Supervisord;
-
 class ServerCreate extends ServerCommand {
     
     /**
@@ -32,19 +25,7 @@ class ServerCreate extends ServerCommand {
      */
     public function fire()
     {
-        $config = new Configuration;
-        $renderer = new Renderer;
-
-        $section = new Program('test', ['command' => 'cat']);
-        $config->addSection($section);
-
-        $rendered_config = $renderer->render($config->toArray());
-
-        $bytes_written = File::put('/etc/supervisor/conf.d/test.conf', $rendered_config);
-        if ($bytes_written === false)
-        {
-            die("Error writing to file");
-        }
+        $this->info($this->supervisor->updateSupervisorConfig());
 
         // dd($this->supervisorInstalled());
         // $serverId = $this->ask('Server ID');

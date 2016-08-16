@@ -27,7 +27,7 @@ $app->withFacades();
 
 $app->withEloquent();
 
-config(['servers' => json_decode(file_get_contents(base_path('surveil.json')), true)]);
+config(['surveil' => json_decode(file_get_contents(base_path('surveil.json')), true)]);
 
 /*
 |--------------------------------------------------------------------------
