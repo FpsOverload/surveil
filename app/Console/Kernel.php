@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Server\ServerCreate::class,
-        Commands\Server\ServerStart::class
+        Commands\Server\ServerStart::class,
+        Commands\Server\ServerStop::class
     ];
 
     /**
