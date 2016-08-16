@@ -2,31 +2,45 @@
 
 namespace App\Surveil\Supervisor;
 
+use Illuminate\Support\Facades\File;
+use Indigo\Ini\Renderer;
+use Supervisor\Configuration\Configuration;
+use Supervisor\Configuration\Section\Program;
+
 class SupervisorManager {
     
     public function updateSupervisorConfig()
     {
-        $serverConfig = collect(config('surveil.servers'));
+        $servers = collect(config('surveil.servers'));
 
-        $serverConfig->each(function($key, $value) {
+        $config = new Configuration;
 
+        $servers->each(function($server, $id) use ($config) {
+            $section = new Program(config('surveil.supervisor_prefix') . $id, $this->optionForServer($server));
+            $config->addSection($section);
         });
 
-        return "Updated supervisor config";
+        $renderer = new Renderer;
 
-        // $config = new Configuration;
-        // $renderer = new Renderer;
+        $renderedConfig = $renderer->render($config->toArray());
 
-        // $section = new Program('test', ['command' => 'cat']);
-        // $config->addSection($section);
+        if (File::put(config('surveil.supervisor_config'), $renderedConfig) === false)
+        {
+            return false;
+        }
 
-        // $rendered_config = $renderer->render($config->toArray());
+        return true;
+    }
 
-        // $bytes_written = File::put('/etc/supervisor/conf.d/test.conf', $rendered_config);
-        // if ($bytes_written === false)
-        // {
-        //     die("Error writing to file");
-        // }
+    protected function optionForServer($server)
+    {
+        return [
+            'autorestart' => false,
+            'autostart' => false,
+            'command' => "\"./" . $server['binary'] . " " . $server['startup_params'] . '"',
+            'directory' => '"' . $server['path'] . '"',
+            'user' => config('surveil.supervisor_user')
+        ];
     }
 
 }
