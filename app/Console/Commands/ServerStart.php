@@ -1,6 +1,8 @@
 <?php namespace App\Console\Commands;
 
+use App\Exceptions\InvalidServerException;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
@@ -12,7 +14,9 @@ class ServerStart extends Command {
      * @var string
      */
     protected $signature = 'server:start 
-                            {--s|surveil : Whether surveil should also start}';
+                            {serverId? : The server to start}
+                            {--s|surveil : Whether surveil should also start}
+                            {--S|screen : Run server inside a screen}';
 
     /**
      * The console command description.
@@ -28,20 +32,53 @@ class ServerStart extends Command {
      */
     public function fire()
     {
-        $path = base_path('sample_log.log');
 
-        $output = $this->output;
+        try {
+            $server = $this->getServer();
+        } catch(\Exception $e) {
+            $this->error($e->getMessage());
+            return;
+        }
+        
+        if ($this->option('screen')) {
 
-        (new Process('cd /home/oliver/cod4/ && ./cod4x18_dedrun +exec server.cfg +map mp_crossfire'))->setTimeout(null)->run(function($type, $line) use ($output)
-        {
-            $output->write("Line: " . $line);
-        });
+            $command = "screen -options..";
 
-        // (new Process('tail -f '.escapeshellarg($path)))->setTimeout(null)->run(function($type, $line) use ($output)
-        // {
-        //     $output->write("Line: " . $line);
-        // });
+            $process = new Process();
 
+        } else {
+
+            // new GameProcessor..
+
+            $path = "";
+            $command = "cd /home/oliver/cod4/ && ./cod4x18_dedrun +exec server.cfg +map mp_crossfire";
+
+            // (new Process($command))->setTimeout(null)->run(function($type, $line) use ($output)
+            // {
+            //     $output->write("Line: " . $line);
+            // });
+
+        }
+
+        dd($this->getOutput()->getVerbosity());
         
     }
+
+    private function getServer()
+    {
+
+        $config = config('servers.servers.default');
+
+        if ($this->argument('serverId')) {
+            $config = config('servers.servers.' . $this->argument('serverId'));
+        }
+
+        if (!$config) {
+            throw new InvalidServerException("Server not found");
+        }
+
+        return $config;
+
+    }
+
 }

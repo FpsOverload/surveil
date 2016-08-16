@@ -23,9 +23,11 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__.'/../')
 );
 
-// $app->withFacades();
+$app->withFacades();
 
-// $app->withEloquent();
+$app->withEloquent();
+
+config(['servers' => json_decode(file_get_contents(base_path('surveil.json')), true)]);
 
 /*
 |--------------------------------------------------------------------------

@@ -1,0 +1,29 @@
+{
+
+    "servers": {
+
+        "default": {
+
+            "path": "path_value",
+            "binary": "binary_value",
+            "server_ip": "server_ip_value",
+            "server_port": "server_port_value",
+            "server_rcon": "server_rcon_value",
+            "startup_params": "+exec server.cfg +map mp_crossfire"
+
+        },
+
+        "secondServer": {
+
+            "path": "path_value",
+            "binary": "binary_value",
+            "server_ip": "server_ip_value",
+            "server_port": "server_port_value",
+            "server_rcon": "server_rcon_value",
+            "startup_params": "+exec server.cfg +map mp_crossfire"
+
+        }
+
+    }
+
+}
