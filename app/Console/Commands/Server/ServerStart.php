@@ -2,10 +2,6 @@
 
 namespace App\Console\Commands\Server;
 
-use App\Exceptions\InvalidServerException;
-use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\Process;
 
 class ServerStart extends ServerCommand {
