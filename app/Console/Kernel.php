@@ -13,7 +13,8 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\Server\ServerCreate::class
+        Commands\Server\ServerCreate::class,
+        Commands\Server\ServerStart::class
     ];
 
     /**

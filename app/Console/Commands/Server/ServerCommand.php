@@ -15,13 +15,12 @@ class ServerCommand extends Command {
     function __construct(SupervisorManager $supervisor)
     {
         parent::__construct();
-        
+
         $this->supervisor = $supervisor;
     }
 
     protected function getServer()
     {
-
         $config = config('surveil.servers.default');
 
         if ($this->argument('serverId')) {
@@ -33,7 +32,6 @@ class ServerCommand extends Command {
         }
 
         return $config;
-
     }
 
     protected function supervisorInstalled()
