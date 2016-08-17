@@ -21,17 +21,19 @@ class ServerCommand extends Command {
 
     protected function getServer()
     {
-        $config = config('surveil.servers.default');
+        $server['config'] = config('surveil.servers.default');
+        $server['serverId'] = 'default';
 
         if ($this->argument('serverId')) {
-            $config = config('surveil.servers.' . $this->argument('serverId'));
+            $server['config'] = config('surveil.servers.' . $this->argument('serverId'));
+            $server['serverId'] = $this->argument('serverId');
         }
-
-        if (!$config) {
+        
+        if (! $server['config']) {
             throw new InvalidServerException("Server not found");
         }
 
-        return $config;
+        return $server;
     }
 
     protected function addServer($server, $serverId)

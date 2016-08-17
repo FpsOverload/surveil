@@ -20,6 +20,9 @@ class ServerDelete extends ServerCommand {
      */
     protected $description = "Delete a game server configuration";
 
+    protected $server = [];
+    protected $serverId = "";
+
     /**
      * Execute the console command.
      *
@@ -28,16 +31,17 @@ class ServerDelete extends ServerCommand {
     public function fire()
     {
         try {
-            $this->server = $this->getServer();
+            $server = $this->getServer();
+
+            $this->serverId = $server['serverId'];
+            $this->server = $server['config'];
         } catch(\Exception $e) {
             $this->error($e->getMessage());
             return;
         }
 
-        $serverId = $this->argument('serverId');
-
-        if ($this->confirm('Are you sure you wish to delete ' . $serverId . '?')) {
-            //$this->deleteServer($serverId);
+        if ($this->confirm('Are you sure you wish to delete ' . $this->serverId . '?')) {
+            //$this->deleteServer($this->serverId);
         }
 
         $this->info('Aborted');

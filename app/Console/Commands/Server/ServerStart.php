@@ -23,6 +23,7 @@ class ServerStart extends ServerCommand {
     protected $description = "Start a game server";
 
     protected $server = [];
+    protected $serverId = "";
 
     /**
      * Execute the console command.
@@ -32,7 +33,10 @@ class ServerStart extends ServerCommand {
     public function fire()
     {
         try {
-            $this->server = $this->getServer();
+            $server = $this->getServer();
+
+            $this->serverId = $server['serverId'];
+            $this->server = $server['config'];
         } catch(\Exception $e) {
             $this->error($e->getMessage());
             return;
@@ -47,7 +51,7 @@ class ServerStart extends ServerCommand {
 
     protected function startSupervisedServer()
     {
-        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->argument('serverId'));
+        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->serverId);
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);

@@ -22,6 +22,7 @@ class ServerStop extends ServerCommand {
     protected $description = "Stop a game server";
 
     protected $server = [];
+    protected $serverId = "";
 
     /**
      * Execute the console command.
@@ -31,13 +32,16 @@ class ServerStop extends ServerCommand {
     public function fire()
     {
         try {
-            $this->server = $this->getServer();
+            $server = $this->getServer();
+
+            $this->serverId = $server['serverId'];
+            $this->server = $server['config'];
         } catch(\Exception $e) {
             $this->error($e->getMessage());
             return;
         }
         
-        $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->argument('serverId'));
+        $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->serverId);
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);
