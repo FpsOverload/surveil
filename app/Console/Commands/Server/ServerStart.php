@@ -22,9 +22,6 @@ class ServerStart extends ServerCommand {
      */
     protected $description = "Start a game server";
 
-    protected $server = [];
-    protected $serverId = "";
-
     /**
      * Execute the console command.
      *
@@ -32,15 +29,7 @@ class ServerStart extends ServerCommand {
      */
     public function fire()
     {
-        try {
-            $server = $this->getServer();
-
-            $this->serverId = $server['serverId'];
-            $this->server = $server['config'];
-        } catch(\Exception $e) {
-            $this->error($e->getMessage());
-            return;
-        }
+        $this->getServer();
         
         if ($this->option('unsupervised')) {
             return $this->startUnsupervisedServer();

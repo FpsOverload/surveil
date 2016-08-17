@@ -1,1 +1,15 @@
-{"supervisor_config":"\/etc\/supervisor\/conf.d\/surveil.conf","supervisor_prefix":"surveil_","supervisor_user":"oliver","servers":{"default":{"path":"\/home\/oliver\/cod4","binary":"cod4x18_dedrun","server_ip":"192.168.1.4","server_port":"1024","server_rcon":"qwertyuiop","startup_params":"+exec server.cfg +map mp_crossfire"},"secondServer":{"path":"\/home\/oliver\/cod4","binary":"cod4x18_dedrun","server_ip":"192.168.1.4","server_port":"1025","server_rcon":"qwertyuiop","startup_params":"+exec server.cfg +map mp_crash"},"myserver":{"path":"\/home\/oliver\/cod4","binary":"cod4x18_dedrun","server_ip":"192.168.1.4","server_port":"1024","server_rcon":"qwertyuiop","startup_params":"+map mp_crash"}}}
+{
+    "supervisor_config": "/etc/supervisor/conf.d/surveil.conf",
+    "supervisor_prefix": "surveil_",
+    "supervisor_user": "oliver",
+    "servers": {
+        "default": {
+            "path": "/home/oliver/cod4",
+            "binary": "cod4x18_dedrun",
+            "server_ip": "192.168.1.4",
+            "server_port": "1024",
+            "server_rcon": "qwertyuiop",
+            "startup_params": "+exec server.cfg +map mp_crossfire"
+        }
+    }
+}

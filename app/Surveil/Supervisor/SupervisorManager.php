@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\File;
 use Indigo\Ini\Renderer;
 use Supervisor\Configuration\Configuration;
 use Supervisor\Configuration\Section\Program;
+use Symfony\Component\Process\Process;
 
 class SupervisorManager {
     
@@ -29,12 +30,23 @@ class SupervisorManager {
             return false;
         }
 
+        $this->supervisorUpdate();
+
         return true;
     }
 
     public function supervisorProgramForServer($id)
     {
         return config('surveil.supervisor_prefix') . $id;
+    }
+
+    protected function supervisorUpdate()
+    {
+        $command = 'supervisorctl reread && supervisorctl update';
+        (new Process($command))->setTimeout(null)->run(function($type, $line)
+        {
+            return $line;
+        });
     }
 
     protected function optionForServer($server, $id)

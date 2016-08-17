@@ -6,11 +6,13 @@ use App\Exceptions\InvalidServerException;
 use App\Exceptions\SupervisorNotFoundException;
 use App\Surveil\Supervisor\SupervisorManager;
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 
 class ServerCommand extends Command {
 
-    protected $supervisor;
+    protected $supervisor, $server, $serverId;
 
     function __construct(SupervisorManager $supervisor)
     {
@@ -21,19 +23,19 @@ class ServerCommand extends Command {
 
     protected function getServer()
     {
-        $server['config'] = config('surveil.servers.default');
-        $server['serverId'] = 'default';
+        $this->server = config('surveil.servers.default');
+        $this->serverId = 'default';
 
         if ($this->argument('serverId')) {
-            $server['config'] = config('surveil.servers.' . $this->argument('serverId'));
-            $server['serverId'] = $this->argument('serverId');
+            $this->server = config('surveil.servers.' . $this->argument('serverId'));
+            $this->serverId = $this->argument('serverId');
         }
-        
-        if (! $server['config']) {
+
+        if (! $this->server) {
             throw new InvalidServerException("Server not found");
         }
 
-        return $server;
+        return;
     }
 
     protected function addServer($server, $serverId)
@@ -42,7 +44,20 @@ class ServerCommand extends Command {
 
         $surveil['servers'][$serverId] = $server;
 
-        file_put_contents(base_path('surveil.json'), json_encode($surveil));
+        file_put_contents(base_path('surveil.json'), json_encode($surveil, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+
+        config(['surveil' => $surveil]);
+
+        $this->supervisor->updateSupervisorConfig();
+    }
+
+    protected function deleteServer($serverId)
+    {
+        $surveil = json_decode(file_get_contents(base_path('surveil.json')), true);
+
+        unset($surveil['servers'][$serverId]);
+
+        file_put_contents(base_path('surveil.json'), json_encode($surveil, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
 
         config(['surveil' => $surveil]);
 
