@@ -25,16 +25,52 @@ class ServerCreate extends ServerCommand {
      */
     public function fire()
     {
-        $this->info($this->supervisor->updateSupervisorConfig());
+        $serverId = $this->collectServerId();
 
-        // dd($this->supervisorInstalled());
-        // $serverId = $this->ask('Server ID');
-        // $path = $this->ask('path');
-        // $binary = $this->ask('binary');
-        // $server_ip = $this->ask('server_ip');
-        // $server_port = $this->ask('server_port');
-        // $server_rcon = $this->ask('server_rcon');
-        // $startup_params = $this->ask('startup_params');
+        $server['path'] = $this->collectPath();
+        $server['binary'] = $this->collectBinary($server['path']);
+        $server['server_ip'] = $this->ask('server_ip');
+        $server['server_port'] = $this->ask('server_port');
+        $server['server_rcon'] = $this->ask('server_rcon');
+        $server['startup_params'] = $this->ask('startup_params');
+
+        $this->addServer($server, $serverId);
+    }
+
+    protected function collectServerId()
+    {
+        $serverId = $this->ask('Server ID');
+
+        if (config('surveil.servers.' . $serverId)) {
+            $this->error('Server id taken, try again');
+            return $this->collectServerId();
+        }
+
+        return $serverId;
+    }
+
+    protected function collectPath()
+    {
+        $path = $this->ask('Binary directory, do not include the binary name');
+
+        if (! is_dir($path)) {
+            $this->error('Please enter a valid path');
+            return $this->collectPath();
+        }
+
+        return rtrim($path, '/');
+    }
+
+    protected function collectBinary($path)
+    {
+        $binary = $this->ask('Binary name');
+
+        if (! is_file($path . '/' . $binary)) {
+            $this->error('Please enter a valid binary');
+            return $this->collectBinary($path);
+        }
+
+        return $binary;
     }
 
 }

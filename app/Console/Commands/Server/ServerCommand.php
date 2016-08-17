@@ -34,9 +34,17 @@ class ServerCommand extends Command {
         return $config;
     }
 
-    protected function supervisorInstalled()
+    protected function addServer($server, $serverId)
     {
-        return true;
+        $surveil = json_decode(file_get_contents(base_path('surveil.json')), true);
+
+        $surveil['servers'][$serverId] = $server;
+
+        file_put_contents(base_path('surveil.json'), json_encode($surveil));
+
+        config(['surveil' => $surveil]);
+
+        $this->supervisor->updateSupervisorConfig();
     }
 
 }
