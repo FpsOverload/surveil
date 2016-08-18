@@ -47,4 +47,21 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $e);
     }
+
+    /**
+     * Render an exception to the console.
+     *
+     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
+     * @param  \Exception  $e
+     * @return void
+     */
+    public function renderForConsole($output, Exception $e)
+    {
+        if ($e instanceof InvalidServerException) {
+            return $output->writeln('<bg=red;options=bold> ' . $e->getMessage() . ' </>');
+        }
+
+        return parent::renderForConsole($output, $e);
+    }
+
 }
