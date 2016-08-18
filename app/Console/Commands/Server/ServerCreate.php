@@ -39,7 +39,13 @@ class ServerCreate extends ServerCommand {
 
     protected function collectServerId()
     {
-        $serverId = $this->ask('Server ID');
+        $default = null;
+        
+        if (empty(config('surveil.servers'))) {
+            $default = 'default';
+        } 
+
+        $serverId = $this->ask('Server ID', $default);
 
         if (config('surveil.servers.' . $serverId)) {
             $this->error('Server id taken, try again');

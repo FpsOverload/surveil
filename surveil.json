@@ -7,8 +7,8 @@
             "path": "/home/oliver/cod4",
             "binary": "cod4x18_dedrun",
             "server_ip": "192.168.1.4",
-            "server_port": "1024",
-            "server_rcon": "qwertyuiop",
+            "server_port": "28960",
+            "server_rcon": "rconpassword",
             "startup_params": "+exec server.cfg +map mp_crossfire"
         }
     }
