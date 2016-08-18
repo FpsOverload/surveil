@@ -12,7 +12,7 @@ class ServerStop extends ServerCommand {
      * @var string
      */
     protected $signature = 'server:stop 
-                            {serverId? : The id of the server to stop}
+                            {serverId=default : The id of the server to stop}
                         ';
     /**
      * The console command description.

@@ -12,7 +12,7 @@ class ServerStart extends ServerCommand {
      * @var string
      */
     protected $signature = 'server:start 
-                            {serverId? : The id of the server to start}
+                            {serverId=default : The id of the server to start}
                             {--s|unsupervised : Start the server manually, not through supervisor}
                         ';
     /**

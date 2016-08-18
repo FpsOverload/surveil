@@ -23,9 +23,6 @@ class ServerCommand extends Command {
 
     protected function getServer()
     {
-        $this->server = config('surveil.servers.default');
-        $this->serverId = 'default';
-
         if ($this->argument('serverId')) {
             $this->server = config('surveil.servers.' . $this->argument('serverId'));
             $this->serverId = $this->argument('serverId');

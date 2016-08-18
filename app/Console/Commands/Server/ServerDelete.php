@@ -10,7 +10,7 @@ class ServerDelete extends ServerCommand {
      * @var string
      */
     protected $signature = 'server:delete
-                            {serverId? : The id of the server to start}
+                            {serverId=default : The id of the server to delete}
                         ';
 
     /**
