@@ -18,6 +18,8 @@ class Kernel extends ConsoleKernel
         Commands\Server\ServerStop::class,
         Commands\Server\ServerDelete::class,
         Commands\Server\ServerList::class,
+
+        Commands\Rcon\RconStatus::class,
     ];
 
     /**

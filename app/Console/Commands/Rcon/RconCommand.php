@@ -2,17 +2,18 @@
 
 namespace App\Console\Commands\Rcon;
 
+use App\Surveil\Rcon\RconClient;
 use Illuminate\Console\Command;
 
-class ServerCommand extends Command {
+class RconCommand extends Command {
 
-    protected $server, $serverId;
+    protected $server, $serverId, $rconClient;
 
-    protected $rconClient;
-
-    function __construct()
+    function __construct(RconClient $rconClient)
     {
         parent::__construct();
+
+        $this->rconClient = $rconClient;
     }
 
     public function connectToServer()
@@ -20,6 +21,8 @@ class ServerCommand extends Command {
         if ($this->argument('serverId')) {
             $this->server = config('surveil.servers.' . $this->argument('serverId'));
             $this->serverId = $this->argument('serverId');
+
+            $this->rconClient->setupRcon($this->server);
         }
 
         if (! $this->server) {

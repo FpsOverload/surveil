@@ -2,12 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Exceptions\RconImplementationNotFoundException;
 use Exception;
-use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Validation\ValidationException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -57,8 +58,8 @@ class Handler extends ExceptionHandler
      */
     public function renderForConsole($output, Exception $e)
     {
-        if ($e instanceof InvalidServerException) {
-            return $output->writeln('<bg=red;options=bold> ' . $e->getMessage() . ' </>');
+        if ($e instanceof InvalidServerException || $e instanceof RconImplementationNotFoundException) {
+            return $output->writeln('<bg=red;options=bold> ' . get_class($e) . ': </><bg=red;>' . $e->getMessage() . ' </>');
         }
 
         return parent::renderForConsole($output, $e);
