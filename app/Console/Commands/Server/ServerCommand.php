@@ -3,12 +3,8 @@
 namespace App\Console\Commands\Server;
 
 use App\Exceptions\InvalidServerException;
-use App\Exceptions\SupervisorNotFoundException;
 use App\Surveil\Supervisor\SupervisorManager;
 use Illuminate\Console\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Process\Process;
 
 class ServerCommand extends Command {
 
