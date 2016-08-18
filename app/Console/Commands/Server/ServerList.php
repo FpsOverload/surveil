@@ -25,7 +25,7 @@ class ServerList extends ServerCommand {
      */
     public function fire()
     {
-        $headers = ['Server ID', 'Path', 'Binary', 'IP', 'Port', 'Params'];
+        $headers = ['Server ID', 'Path', 'Binary', 'Game', 'IP', 'Port', 'Params'];
 
         $servers = collect(config('surveil.servers'))->transform(function($server, $id) {
             $server = ['id' => $id] + $server;

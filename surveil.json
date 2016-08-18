@@ -3,13 +3,14 @@
     "supervisor_prefix": "surveil_",
     "supervisor_user": "oliver",
     "servers": {
-        "123": {
+        "default": {
             "path": "/home/oliver/cod4",
             "binary": "cod4x18_dedrun",
+            "server_game": "cod4",
             "server_ip": "127.0.0.1",
             "server_port": 28960,
-            "server_rcon": "1234",
-            "startup_params": "123"
+            "server_rcon": "mypassword",
+            "startup_params": "+map mp_crossfire"
         }
     }
 }
