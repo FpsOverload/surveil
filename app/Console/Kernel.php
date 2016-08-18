@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\Server\ServerCreate::class,
         Commands\Server\ServerStart::class,
         Commands\Server\ServerStop::class,
-        Commands\Server\ServerDelete::class
+        Commands\Server\ServerDelete::class,
+        Commands\Server\ServerList::class,
     ];
 
     /**
