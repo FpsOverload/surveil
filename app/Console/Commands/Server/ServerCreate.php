@@ -29,8 +29,8 @@ class ServerCreate extends ServerCommand {
 
         $server['path'] = $this->collectPath();
         $server['binary'] = $this->collectBinary($server['path']);
-        $server['server_ip'] = $this->ask('server_ip');
-        $server['server_port'] = $this->ask('server_port');
+        $server['server_ip'] = $this->ask('server_ip', '127.0.0.1');
+        $server['server_port'] = $this->ask('server_port', 28960);
         $server['server_rcon'] = $this->ask('server_rcon');
         $server['startup_params'] = $this->ask('startup_params');
 
