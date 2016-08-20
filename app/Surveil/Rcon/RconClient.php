@@ -3,14 +3,14 @@
 namespace App\Surveil\Rcon;
 
 use App\Exceptions\RconImplementationNotFoundException;
-use App\Surveil\Rcon\Specific\CoD4Rcon;
+use App\Surveil\Rcon\Specific\Cod4;
 
 class RconClient {
 
     public $connection;
 
     protected $rconImplementations = [
-        'cod4' => CoD4Rcon::class
+        'cod4' => Cod4::class
     ];
 
     public function setupRcon($server)

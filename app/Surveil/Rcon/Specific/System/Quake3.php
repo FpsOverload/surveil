@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Surveil\Rcon\Specific;
+namespace App\Surveil\Rcon\Specific\System;
 
-class CoD4Rcon implements RconInterface {
+class Quake3 extends BaseSystem {
 
-    protected $socket, $prefix, $server;
+    protected $socket, $prefix;
 
     function __construct($server)
     {
-        $this->server = $server;
+        parent::__construct($server);
+        
         $this->prefix = str_repeat(chr(255), 4);
-        $this->responsePrefix = $this->prefix . "print\n";
+        $this->responsePrefix = $this->prefix;
+
         $this->socket = fsockopen("udp://" . $server['server_ip'], $server['server_port'], $errno, $errstr, 30);
 
         if (!$this->socket) {
@@ -18,19 +20,14 @@ class CoD4Rcon implements RconInterface {
         }
     }
 
-    public function getServerStatus()
-    {
-        $this->sendCommand('rcon '.$this->server['server_rcon'].' serverinfo');
-    }
-
-    private function sendCommand($command)
+    protected function sendCommand($command)
     {
         fwrite($this->socket, $this->prefix . $command . "\n");
 
-        dd($this->response());
+        return $this->response();
     }
 
-    public function response($timeout = 2) {
+    protected function response($timeout = 2) {
         $response = '';
         $timeout = time() + $timeout;
 
@@ -45,7 +42,7 @@ class CoD4Rcon implements RconInterface {
         return substr($response, strlen($this->responsePrefix));
     }
 
-     private function readSocket() {
+    protected function readSocket() {
         return fread($this->socket, 9999);
     }
 
