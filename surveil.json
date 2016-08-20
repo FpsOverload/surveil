@@ -8,9 +8,9 @@
             "binary": "cod4x18_dedrun",
             "server_game": "cod4",
             "server_ip": "127.0.0.1",
-            "server_port": 28960,
-            "server_rcon": "mypassword",
-            "startup_params": "+map mp_crossfire"
+            "server_port": "28960",
+            "server_rcon": "qwertyuiop",
+            "startup_params": "+set net_port 28960 +exec server.cfg +map mp_crossfire"
         }
     }
 }

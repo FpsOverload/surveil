@@ -28,6 +28,8 @@ class RconStatus extends RconCommand {
     public function fire()
     {
         $this->connectToServer();
+
+        $this->rconClient->connection->getServerStatus();
     }
 
 }
