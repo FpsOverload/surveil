@@ -2,14 +2,14 @@
 
 namespace App\Console\Commands\Rcon;
 
-class RconStatus extends RconCommand {
+class RconOverview extends RconCommand {
     
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = 'rcon:status
+    protected $signature = 'rcon:overview
                             {serverId=default : The id of the server to send the command}
                         ';
 
@@ -29,7 +29,7 @@ class RconStatus extends RconCommand {
     {
         $this->connectToServer();
 
-        $this->rconClient->connection->getServerStatus();
+        dd($this->rconClient->connection->serverOverview());
     }
 
 }

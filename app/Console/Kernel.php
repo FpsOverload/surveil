@@ -19,7 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\Server\ServerDelete::class,
         Commands\Server\ServerList::class,
 
-        Commands\Rcon\RconStatus::class,
+        Commands\Rcon\RconOverview::class,
     ];
 
     /**

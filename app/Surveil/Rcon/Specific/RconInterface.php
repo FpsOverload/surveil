@@ -4,6 +4,6 @@ namespace App\Surveil\Rcon\Specific;
 
 interface RconInterface {
 
-    public function getServerStatus();
+    public function serverOverview();
 
 }
