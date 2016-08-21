@@ -30,8 +30,6 @@ class Cod4 extends Quake3 implements RconInterface {
 
         $response = $this->sendCommand('rcon '.$this->server['server_rcon'].' status');
 
-        $matches = [];
-        
         preg_match('/' . $regex . '/m', $response, $matches);
         
         return $matches;
@@ -42,8 +40,6 @@ class Cod4 extends Quake3 implements RconInterface {
         $response['server_name'] = $this->getCvar('sv_hostname');
         $response['map_name'] = $this->getCvar('mapname');
         $response['game_type'] = $this->getCvar('g_gametype');
-
-        dd($response['game_type']);
 
         return $response;
     }
@@ -58,7 +54,15 @@ class Cod4 extends Quake3 implements RconInterface {
 
     public function getCvar($cvar)
     {
-        return $this->sendCommand('rcon ' . $this->server['server_rcon'] . ' ' . $cvar);
+        $regex = '^"(?P<cvar>[a-z0-9_.]+)"\s+is:\s*"(?P<value>.*?)(\^7)?"\s+default:\s*"(?P<default>.*?)(\^7)?"$';
+
+        $response = $this->sendCommand('rcon ' . $this->server['server_rcon'] . ' ' . $cvar);
+
+        preg_match('/' . $regex . '/', $response, $matches);
+
+        if (isset($matches['value'])) {
+            return $matches['value'];
+        }
     }
-    
+
 }
