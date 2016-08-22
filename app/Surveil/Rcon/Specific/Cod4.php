@@ -30,9 +30,17 @@ class Cod4 extends Quake3 implements RconInterface {
 
         $response = $this->sendCommand('rcon '.$this->server['server_rcon'].' status');
 
-        preg_match('/' . $regex . '/m', $response, $matches);
-        
-        return $matches;
+        $response = collect(explode("\n", $response))->map(function ($line, $key) use ($regex) {
+            preg_match('/' . $regex . '/', $line, $matches);
+
+            return collect($matches)->reject(function ($value, $key) {
+                return is_int($key);
+            });
+        })->reject(function ($value) {
+            return $value->isEmpty();
+        });
+
+        return $response;
     }
 
     public function serverInfo()
