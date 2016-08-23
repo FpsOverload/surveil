@@ -21,6 +21,7 @@ class CreateServersTable extends Migration
             $table->string('game');
             $table->string('ip');
             $table->string('port');
+            $table->string('rcon');
             $table->string('params');
             $table->timestamps();
         });

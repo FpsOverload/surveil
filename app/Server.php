@@ -13,7 +13,7 @@ class Server extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'path', 'binary', 'game', 'ip', 'port', 'params'
+        'name', 'path', 'binary', 'game', 'ip', 'port', 'rcon', 'params'
     ];
 
 }
