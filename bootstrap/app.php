@@ -24,10 +24,7 @@ $app = new Laravel\Lumen\Application(
 );
 
 $app->withFacades();
-
 $app->withEloquent();
-
-config(['surveil' => json_decode(file_get_contents(base_path('surveil.json')), true)]);
 
 /*
 |--------------------------------------------------------------------------
