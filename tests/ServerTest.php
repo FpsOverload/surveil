@@ -1,5 +1,6 @@
 <?php
 
+use App\Server;
 use Illuminate\Support\Facades\Artisan;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -20,8 +21,6 @@ class ServerTest extends TestCase
             'serverParams' => '+exec server.cfg +map mp_crossfire'
         ]);
 
-        $resultAsText = Artisan::output();
-
         $this->seeInDatabase('servers', [
             'name' => 'myServer',
             'path' => '/home/oliver/cod4',
@@ -32,5 +31,23 @@ class ServerTest extends TestCase
             'rcon' => 'qwertyuiop',
             'params' => '+exec server.cfg +map mp_crossfire'
         ]);
+    }
+
+    public function testServerDeletion()
+    {
+        $this->testServerCreation();
+
+        $preCount = Server::count();
+
+        Artisan::call('server:delete', [
+            'serverName' => 'myServer',
+            '--force' => true
+        ]);
+
+        $output = Artisan::output();
+
+        $this->assertContains('Server deleted', $output);
+
+        $this->assertTrue($preCount > Server::count());
     }
 }
