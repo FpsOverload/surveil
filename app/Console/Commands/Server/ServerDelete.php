@@ -11,6 +11,7 @@ class ServerDelete extends ServerCommand {
      */
     protected $signature = 'server:delete
                             {serverName=default : The id of the server to delete}
+                            {--f|force : Delete the server without confirmation}
                         ';
 
     /**
@@ -29,15 +30,24 @@ class ServerDelete extends ServerCommand {
     {
         $this->getServer();
 
+        if ($this->option('force')) {
+            return $this->delete();
+        }
+        
         if ($this->confirm('Are you sure you wish to delete ' . $this->server->name . '?')) {
-            $this->deleteServer();
-
-            $this->info("Server deleted");
-
-            return;
+            return $this->delete();
         }
 
         $this->info('Aborted');
+    }
+
+    protected function delete()
+    {
+        $this->deleteServer();
+
+        $this->info("Server deleted");
+
+        return;
     }
 
 }
