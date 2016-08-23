@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServersTable extends Migration
+class CreateOptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,10 @@ class CreateServersTable extends Migration
      */
     public function up()
     {
-        Schema::create('servers', function (Blueprint $table) {
+        Schema::create('options', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name')->unique();
-            $table->string('path');
-            $table->string('binary');
-            $table->string('game');
-            $table->string('ip');
-            $table->string('port');
-            $table->string('params');
+            $table->string('option')->unique();
+            $table->string('value');
             $table->timestamps();
         });
     }
@@ -33,6 +28,6 @@ class CreateServersTable extends Migration
      */
     public function down()
     {
-        Schema::drop('servers');
+        Schema::drop('options');
     }
 }
