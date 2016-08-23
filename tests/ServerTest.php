@@ -50,4 +50,17 @@ class ServerTest extends TestCase
 
         $this->assertTrue($preCount > Server::count());
     }
+
+    public function testServerList()
+    {
+        $this->testServerCreation();
+
+        Artisan::call('server:list');
+
+        $output = Artisan::output();
+
+        $this->assertContains('myServer', $output);
+        $this->assertContains('/home/oliver/cod4', $output);
+    }
+
 }
