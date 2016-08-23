@@ -40,7 +40,7 @@ class ServerStart extends ServerCommand {
 
     protected function startSupervisedServer()
     {
-        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->serverName);
+        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->server->name);
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);

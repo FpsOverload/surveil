@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands\Server;
 
-use App\Server;
-
 class ServerList extends ServerCommand {
     
     /**
@@ -29,7 +27,7 @@ class ServerList extends ServerCommand {
     {
         $headers = ['Name', 'Path', 'Binary', 'Game', 'IP', 'Port', 'Params'];
 
-        $this->table($headers, Server::get(['name', 'path', 'binary', 'game', 'ip', 'port', 'params']));
+        $this->table($headers, $this->server->get(['name', 'path', 'binary', 'game', 'ip', 'port', 'params']));
     }
 
 }

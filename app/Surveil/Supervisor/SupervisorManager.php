@@ -40,11 +40,11 @@ class SupervisorManager {
         return true;
     }
 
-    public function supervisorProgramForServer($id)
+    public function supervisorProgramForServer($serverName)
     {
         $supervisorPrefix = Option::where('option', 'supervisor_prefix')->firstOrFail()->value;
 
-        return $supervisorPrefix . $id;
+        return $supervisorPrefix . $serverName;
     }
 
     protected function supervisorUpdate()
@@ -56,14 +56,14 @@ class SupervisorManager {
         });
     }
 
-    protected function optionsForServer($serverId)
+    protected function optionsForServer($serverName)
     {
         $supervisorUser = Option::where('option', 'supervisor_user')->firstOrFail()->value;
 
         return [
             'autorestart' => false,
             'autostart' => false,
-            'command' => base_path('artisan server:start --unsupervised ' . $serverId),
+            'command' => base_path('artisan server:start --unsupervised ' . $serverName),
             'directory' => base_path(),
             'user' => $supervisorUser
         ];

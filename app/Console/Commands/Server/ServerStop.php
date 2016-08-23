@@ -30,7 +30,7 @@ class ServerStop extends ServerCommand {
     {
         $this->getServer();
         
-        $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->serverName);
+        $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->server->name);
 
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {

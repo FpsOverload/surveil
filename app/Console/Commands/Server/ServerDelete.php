@@ -29,8 +29,8 @@ class ServerDelete extends ServerCommand {
     {
         $this->getServer();
 
-        if ($this->confirm('Are you sure you wish to delete ' . $this->serverName . '?')) {
-            $this->deleteServer($this->serverName);
+        if ($this->confirm('Are you sure you wish to delete ' . $this->server->name . '?')) {
+            $this->deleteServer();
 
             $this->info("Server deleted");
 

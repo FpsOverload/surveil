@@ -2,8 +2,6 @@
 
 namespace App\Console\Commands\Server;
 
-use App\Server;
-
 class ServerCreate extends ServerCommand {
     
     /**
