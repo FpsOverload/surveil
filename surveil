@@ -1,0 +1,27 @@
+#!/usr/bin/env php
+<?php
+
+use Illuminate\Console\Application as Artisan;
+use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Output\ConsoleOutput;
+
+$app = require __DIR__.'/bootstrap/app.php';
+
+$commands = [
+    App\Console\Commands\Server\ServerCreate::class,
+    App\Console\Commands\Server\ServerStart::class,
+    App\Console\Commands\Server\ServerStop::class,
+    App\Console\Commands\Server\ServerDelete::class,
+    App\Console\Commands\Server\ServerList::class,
+
+    App\Console\Commands\Rcon\RconOverview::class,
+];
+
+$artisan = (new Artisan($app, $app->make('events'), '0.1'));
+
+$artisan->setName('Surveil Console');
+
+$artisan->resolveCommands($commands);
+
+
+$artisan->run(new ArgvInput, new ConsoleOutput);
