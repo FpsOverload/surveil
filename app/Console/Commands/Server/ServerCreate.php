@@ -52,7 +52,7 @@ class ServerCreate extends ServerCommand {
             return $argument;
         }
 
-        $else();
+        return $else();
     }
 
     protected function collectServerName()
