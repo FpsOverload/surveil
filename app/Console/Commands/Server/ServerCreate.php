@@ -28,9 +28,9 @@ class ServerCreate extends ServerCommand {
         $server['name'] = $this->collectServerName();
         $server['path'] = $this->collectPath();
         $server['binary'] = $this->collectBinary($server['path']);
-        $server['game'] = $this->choice('Server Game', ['cod4', 'cod2']);
+        $server['game'] = $this->choice('Server Game', ['cod4', 'cod4x', 'arma3']);
         $server['ip'] = $this->ask('Server IP', '127.0.0.1');
-        $server['port'] = $this->ask('Server Port', 28960);
+        $server['port'] = $this->ask('Server Port');
         $server['rcon'] = $this->secret('Server Rcon Password');
         $server['params'] = $this->ask('Server Startup Parameters');
 
