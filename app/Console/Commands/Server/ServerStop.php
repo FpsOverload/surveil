@@ -12,7 +12,7 @@ class ServerStop extends ServerCommand {
      * @var string
      */
     protected $signature = 'server:stop 
-                            {serverId=default : The id of the server to stop}
+                            {serverName=default : The id of the server to stop}
                         ';
     /**
      * The console command description.
@@ -30,7 +30,7 @@ class ServerStop extends ServerCommand {
     {
         $this->getServer();
         
-        $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->serverId);
+        $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->serverName);
 
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {

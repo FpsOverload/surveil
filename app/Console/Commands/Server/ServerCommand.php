@@ -9,20 +9,21 @@ use Illuminate\Console\Command;
 
 class ServerCommand extends Command {
 
-    protected $supervisor, $server, $serverId;
+    protected $supervisor, $server, $serverName;
 
-    function __construct(SupervisorManager $supervisor)
+    function __construct(SupervisorManager $supervisor, Server $server)
     {
         parent::__construct();
 
         $this->supervisor = $supervisor;
+        $this->server = $server;
     }
 
     protected function getServer()
     {
-        if ($this->argument('serverId')) {
-            $this->server = Server::where('name', $this->argument('serverId'))->firstOrFail();
-            $this->serverId = $this->argument('serverId');
+        if ($this->argument('serverName')) {
+            $this->server = Server::where('name', $this->argument('serverName'))->firstOrFail();
+            $this->serverName = $this->argument('serverName');
         }
 
         if (! $this->server) {
@@ -39,9 +40,9 @@ class ServerCommand extends Command {
         $this->supervisor->updateSupervisorConfig();
     }
 
-    protected function deleteServer($serverId)
+    protected function deleteServer($serverName)
     {
-        Server::where('name', $serverId)->delete();
+        Server::where('name', $serverName)->delete();
 
         $this->supervisor->updateSupervisorConfig();
     }

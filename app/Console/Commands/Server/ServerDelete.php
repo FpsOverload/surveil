@@ -10,7 +10,7 @@ class ServerDelete extends ServerCommand {
      * @var string
      */
     protected $signature = 'server:delete
-                            {serverId=default : The id of the server to delete}
+                            {serverName=default : The id of the server to delete}
                         ';
 
     /**
@@ -29,8 +29,8 @@ class ServerDelete extends ServerCommand {
     {
         $this->getServer();
 
-        if ($this->confirm('Are you sure you wish to delete ' . $this->serverId . '?')) {
-            $this->deleteServer($this->serverId);
+        if ($this->confirm('Are you sure you wish to delete ' . $this->serverName . '?')) {
+            $this->deleteServer($this->serverName);
 
             $this->info("Server deleted");
 

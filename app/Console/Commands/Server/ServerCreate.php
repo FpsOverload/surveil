@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Server;
+
 class ServerCreate extends ServerCommand {
     
     /**
@@ -25,7 +27,7 @@ class ServerCreate extends ServerCommand {
      */
     public function fire()
     {
-        $server['name'] = $this->collectServerId();
+        $server['name'] = $this->collectServerName();
         $server['path'] = $this->collectPath();
         $server['binary'] = $this->collectBinary($server['path']);
         $server['game'] = $this->choice('Server Game', ['cod4', 'cod2']);
@@ -37,22 +39,22 @@ class ServerCreate extends ServerCommand {
         $this->createServer($server);
     }
 
-    protected function collectServerId()
+    protected function collectServerName()
     {
         $default = null;
-        
-        if (empty(config('surveil.servers'))) {
+
+        if ($this->server->where('name', 'default')->count() == 0) {
             $default = 'default';
         } 
 
-        $serverId = $this->ask('Server ID', $default);
+        $serverName = $this->ask('Server ID', $default);
 
-        if (config('surveil.servers.' . $serverId)) {
+        if ($this->server->where('name', $serverName)->count()) {
             $this->error('Server id taken, try again');
-            return $this->collectServerId();
+            return $this->collectServerName();
         }
 
-        return $serverId;
+        return $serverName;
     }
 
     protected function collectPath()

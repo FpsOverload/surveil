@@ -12,7 +12,7 @@ class ServerStart extends ServerCommand {
      * @var string
      */
     protected $signature = 'server:start 
-                            {serverId=default : The id of the server to start}
+                            {serverName=default : The id of the server to start}
                             {--s|unsupervised : Start the server manually, not through supervisor}
                         ';
     /**
@@ -40,7 +40,7 @@ class ServerStart extends ServerCommand {
 
     protected function startSupervisedServer()
     {
-        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->serverId);
+        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->serverName);
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);
