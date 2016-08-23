@@ -25,17 +25,16 @@ class ServerCreate extends ServerCommand {
      */
     public function fire()
     {
-        $serverId = $this->collectServerId();
-
+        $server['name'] = $this->collectServerId();
         $server['path'] = $this->collectPath();
         $server['binary'] = $this->collectBinary($server['path']);
-        $server['server_game'] = $this->choice('Server Game', ['cod4', 'cod2']);
-        $server['server_ip'] = $this->ask('Server IP', '127.0.0.1');
-        $server['server_port'] = $this->ask('Server Port', 28960);
-        $server['server_rcon'] = $this->secret('Server Rcon Password');
-        $server['startup_params'] = $this->ask('Server Startup Parameters');
+        $server['game'] = $this->choice('Server Game', ['cod4', 'cod2']);
+        $server['ip'] = $this->ask('Server IP', '127.0.0.1');
+        $server['port'] = $this->ask('Server Port', 28960);
+        $server['rcon'] = $this->secret('Server Rcon Password');
+        $server['params'] = $this->ask('Server Startup Parameters');
 
-        $this->addServer($server, $serverId);
+        $this->createServer($server);
     }
 
     protected function collectServerId()

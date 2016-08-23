@@ -2,6 +2,8 @@
 
 namespace App\Surveil\Supervisor;
 
+use App\Option;
+use App\Server;
 use Illuminate\Support\Facades\File;
 use Indigo\Ini\Renderer;
 use Supervisor\Configuration\Configuration;
@@ -12,12 +14,15 @@ class SupervisorManager {
     
     public function updateSupervisorConfig()
     {
-        $servers = collect(config('surveil.servers'));
+        $servers = Server::all();
 
         $config = new Configuration;
 
-        $servers->each(function($server, $id) use ($config) {
-            $section = new Program(config('surveil.supervisor_prefix') . $id, $this->optionForServer($server, $id));
+        $supervisorPrefix = Option::where('option', 'supervisor_prefix')->firstOrFail()->value;
+        $supervisorConfig = Option::where('option', 'supervisor_config')->firstOrFail()->value;
+
+        $servers->each(function($server) use ($config, $supervisorPrefix) {
+            $section = new Program($supervisorPrefix . $server->name, $this->optionsForServer($server->name));
             $config->addSection($section);
         });
 
@@ -25,7 +30,7 @@ class SupervisorManager {
 
         $renderedConfig = $renderer->render($config->toArray());
 
-        if (File::put(config('surveil.supervisor_config'), $renderedConfig) === false)
+        if (File::put($supervisorConfig, $renderedConfig) === false)
         {
             return false;
         }
@@ -37,7 +42,9 @@ class SupervisorManager {
 
     public function supervisorProgramForServer($id)
     {
-        return config('surveil.supervisor_prefix') . $id;
+        $supervisorPrefix = Option::where('option', 'supervisor_prefix')->firstOrFail()->value;
+
+        return $supervisorPrefix . $id;
     }
 
     protected function supervisorUpdate()
@@ -49,14 +56,16 @@ class SupervisorManager {
         });
     }
 
-    protected function optionForServer($server, $id)
+    protected function optionsForServer($serverId)
     {
+        $supervisorUser = Option::where('option', 'supervisor_user')->firstOrFail()->value;
+
         return [
             'autorestart' => false,
             'autostart' => false,
-            'command' => base_path('artisan server:start --unsupervised ' . $id),
+            'command' => base_path('artisan server:start --unsupervised ' . $serverId),
             'directory' => base_path(),
-            'user' => config('surveil.supervisor_user')
+            'user' => $supervisorUser
         ];
     }
 

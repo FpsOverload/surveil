@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Server;
+
 class ServerList extends ServerCommand {
     
     /**
@@ -25,16 +27,9 @@ class ServerList extends ServerCommand {
      */
     public function fire()
     {
-        $headers = ['Server ID', 'Path', 'Binary', 'Game', 'IP', 'Port', 'Params'];
+        $headers = ['Name', 'Path', 'Binary', 'Game', 'IP', 'Port', 'Params'];
 
-        $servers = collect(config('surveil.servers'))->transform(function($server, $id) {
-            $server = ['id' => $id] + $server;
-            unset($server['server_rcon']);
-
-            return $server;
-        });
-
-        $this->table($headers, $servers);
+        $this->table($headers, Server::get(['name', 'path', 'binary', 'game', 'ip', 'port', 'params']));
     }
 
 }

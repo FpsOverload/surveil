@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Server;
 
 use App\Exceptions\InvalidServerException;
+use App\Server;
 use App\Surveil\Supervisor\SupervisorManager;
 use Illuminate\Console\Command;
 
@@ -20,7 +21,7 @@ class ServerCommand extends Command {
     protected function getServer()
     {
         if ($this->argument('serverId')) {
-            $this->server = config('surveil.servers.' . $this->argument('serverId'));
+            $this->server = Server::where('name', $this->argument('serverId'))->firstOrFail();
             $this->serverId = $this->argument('serverId');
         }
 
@@ -31,28 +32,16 @@ class ServerCommand extends Command {
         return;
     }
 
-    protected function addServer($server, $serverId)
+    protected function createServer($server)
     {
-        $surveil = json_decode(file_get_contents(base_path('surveil.json')), true);
-
-        $surveil['servers'][$serverId] = $server;
-
-        file_put_contents(base_path('surveil.json'), json_encode($surveil, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        config(['surveil' => $surveil]);
+        Server::create($server);
 
         $this->supervisor->updateSupervisorConfig();
     }
 
     protected function deleteServer($serverId)
     {
-        $surveil = json_decode(file_get_contents(base_path('surveil.json')), true);
-
-        unset($surveil['servers'][$serverId]);
-
-        file_put_contents(base_path('surveil.json'), json_encode($surveil, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
-
-        config(['surveil' => $surveil]);
+        Server::where('name', $serverId)->delete();
 
         $this->supervisor->updateSupervisorConfig();
     }
