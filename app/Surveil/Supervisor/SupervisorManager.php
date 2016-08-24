@@ -40,11 +40,19 @@ class SupervisorManager {
         return true;
     }
 
+    public function supervisorPrefix()
+    {
+        return Option::where('option', 'supervisor_prefix')->firstOrFail()->value;
+    }
+
     public function supervisorProgramForServer($serverName)
     {
-        $supervisorPrefix = Option::where('option', 'supervisor_prefix')->firstOrFail()->value;
+        return $this->supervisorPrefix() . $serverName;
+    }
 
-        return $supervisorPrefix . $serverName;
+    public function cleanSupervisorResponse($line, $serverName)
+    {
+        return "Server '$serverName'" . str_replace($this->supervisorProgramForServer($serverName), '', rtrim($line));
     }
 
     protected function supervisorUpdate()

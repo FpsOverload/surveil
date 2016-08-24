@@ -34,7 +34,7 @@ class ServerStop extends ServerCommand {
 
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {
-            $this->info($line);
+            $this->info($this->supervisor->cleanSupervisorResponse($line, $this->server->name));
         });
     }
 
