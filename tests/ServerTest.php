@@ -35,12 +35,12 @@ class ServerTest extends TestCase
 
     public function testServerDeletion()
     {
-        $this->testServerCreation();
+        $server = factory(Server::class)->create();
 
         $preCount = Server::count();
 
         Artisan::call('server:delete', [
-            'serverName' => 'myServer',
+            'serverName' => $server->name,
             '--force' => true
         ]);
 
@@ -53,14 +53,14 @@ class ServerTest extends TestCase
 
     public function testServerList()
     {
-        $this->testServerCreation();
+        $server = factory(Server::class)->create();
 
         Artisan::call('server:list');
 
         $output = Artisan::output();
 
-        $this->assertContains('myServer', $output);
-        $this->assertContains('/home/oliver/cod4', $output);
+        $this->assertContains($server->name, $output);
+        $this->assertContains($server->path, $output);
     }
 
 }

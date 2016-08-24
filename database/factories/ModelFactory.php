@@ -17,3 +17,16 @@ $factory->define(App\User::class, function ($faker) {
         'email' => $faker->email,
     ];
 });
+
+$factory->define(App\Server::class, function ($faker) {
+    return [
+        'name' => $faker->domainWord,
+        'path' => base_path(),
+        'binary' => 'artisan test:server',
+        'game' => 'cod4x',
+        'ip' => '127.0.0.1',
+        'port' => '28960',
+        'rcon' => str_random(8),
+        'params' => '+exec server.cfg +map mp_crossfire'
+    ];
+});
