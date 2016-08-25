@@ -1,8 +1,8 @@
 <?php
 
 use App\Server;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Artisan;
-use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class ServerTest extends TestCase
 {
