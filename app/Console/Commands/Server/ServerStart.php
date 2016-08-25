@@ -49,7 +49,7 @@ class ServerStart extends ServerCommand {
 
     protected function startUnsupervisedServer()
     {
-        $command = 'cd ' . $this->server['path'] . ' && ./' . $this->server['binary'] . ' ' . $this->server['startup_params'];
+        $command = 'cd ' . $this->server['path'] . ' && ./' . $this->server['binary'] . ' ' . $this->server->params;
         (new Process($command))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);
