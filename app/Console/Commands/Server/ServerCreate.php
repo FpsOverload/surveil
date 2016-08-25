@@ -18,6 +18,7 @@ class ServerCreate extends ServerCommand {
                             {serverPort? : The server port}
                             {serverRcon? : The server rcon}
                             {serverParams? : The server params}
+                            {serverSurveil? : Run surveil on server}
                         ';
 
     /**
@@ -42,6 +43,7 @@ class ServerCreate extends ServerCommand {
         $server['port'] = $this->collectConfiguration($this->argument('serverPort'), function() { return $this->ask('Server Port'); } );
         $server['rcon'] = $this->collectConfiguration($this->argument('serverRcon'), function() { return $this->secret('Server Rcon Password'); } );
         $server['params'] = $this->collectConfiguration($this->argument('serverParams'), function() { return $this->ask('Server Startup Parameters'); } );
+        $server['surveil'] = $this->collectConfiguration($this->argument('serverSurveil'), function() { return $this->ask('Run Surveil', true); } );
 
         $this->createServer($server);
     }
@@ -75,7 +77,7 @@ class ServerCreate extends ServerCommand {
 
     protected function collectPath()
     {
-        $path = $this->ask('Binary directory, do not include the binary name');
+        $path = $this->anticipate('Binary directory, do not include the binary name', array_column($this->server->get(['path'])->toArray(), 'path'));
 
         if (! is_dir($path)) {
             $this->error('Please enter a valid path');
@@ -87,7 +89,7 @@ class ServerCreate extends ServerCommand {
 
     protected function collectBinary($path)
     {
-        $binary = $this->ask('Binary name');
+        $binary = $this->anticipate('Binary name', array_column($this->server->get(['binary'])->toArray(), 'binary'));
 
         if (! is_file($path . '/' . $binary)) {
             $this->error('Please enter a valid binary');
