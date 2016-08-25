@@ -18,7 +18,8 @@ class ServerTest extends TestCase
             'serverIp' => '127.0.0.1',
             'serverPort' => '28960',
             'serverRcon' => 'qwertyuiop',
-            'serverParams' => '+exec server.cfg +map mp_crossfire'
+            'serverParams' => '+exec server.cfg +map mp_crossfire',
+            'serverSurveil' => true
         ]);
 
         $this->seeInDatabase('servers', [
