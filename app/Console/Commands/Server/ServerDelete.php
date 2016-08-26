@@ -28,7 +28,7 @@ class ServerDelete extends ServerCommand {
      */
     public function fire()
     {
-        $this->getServer();
+        $this->serverFromArgument();
 
         if ($this->option('force')) {
             return $this->delete();
@@ -43,7 +43,7 @@ class ServerDelete extends ServerCommand {
 
     protected function delete()
     {
-        $this->deleteServer();
+        $this->server->delete();
 
         $this->info("Server deleted");
 

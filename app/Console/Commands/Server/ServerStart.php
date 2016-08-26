@@ -32,7 +32,7 @@ class ServerStart extends ServerCommand {
      */
     public function fire()
     {
-        $this->getServer();
+        $this->serverFromArgument();
         $this->buildCommand();
         
         if ($this->option('live')) {

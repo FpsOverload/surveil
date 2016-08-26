@@ -45,7 +45,7 @@ class ServerCreate extends ServerCommand {
         $server['params'] = $this->collectConfiguration($this->argument('serverParams'), function() { return $this->ask('Server Startup Parameters'); } );
         $server['surveil'] = $this->collectConfiguration($this->argument('serverSurveil'), function() { return $this->ask('Run Surveil', true); } );
 
-        $this->createServer($server);
+        $this->server->create($server);
     }
 
     protected function collectConfiguration($argument, $else)

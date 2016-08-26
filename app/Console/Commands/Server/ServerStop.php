@@ -28,7 +28,7 @@ class ServerStop extends ServerCommand {
      */
     public function fire()
     {
-        $this->getServer();
+        $this->serverFromArgument();
         
         $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->server->name);
 

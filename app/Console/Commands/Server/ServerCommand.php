@@ -9,41 +9,26 @@ use Illuminate\Console\Command;
 
 class ServerCommand extends Command {
 
-    protected $supervisor, $server;
+    protected $server;
 
-    function __construct(SupervisorManager $supervisor, Server $server)
+    function __construct(Server $server)
     {
         parent::__construct();
 
-        $this->supervisor = $supervisor;
         $this->server = $server;
     }
 
-    protected function getServer()
+    protected function serverFromArgument()
     {
         if ($this->argument('serverName')) {
-            $this->server = Server::where('name', $this->argument('serverName'))->firstOrFail();
+            $this->server = Server::where('name', $this->argument('serverName'))->first();
         }
 
         if (! $this->server) {
-            throw new InvalidServerException("Server not found");
+            throw new InvalidServerException('Server "' . $this->argument('serverName') . '" not found.');
         }
 
         return;
-    }
-
-    protected function createServer($server)
-    {
-        Server::create($server);
-
-        $this->supervisor->updateSupervisorConfig();
-    }
-
-    protected function deleteServer()
-    {
-        $this->server->delete();
-
-        $this->supervisor->updateSupervisorConfig();
     }
 
 }
