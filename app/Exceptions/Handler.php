@@ -74,8 +74,8 @@ class Handler extends ExceptionHandler
      */
     public function renderForConsole($output, Exception $e)
     {
-        if ($e instanceof InvalidServerException || $e instanceof RconImplementationNotFoundException) {
-            return $output->writeln('<bg=red;options=bold> ' . get_class($e) . ': </><bg=red;>' . $e->getMessage() . ' </>');
+        if ($e instanceof InvalidServerException || $e instanceof RconImplementationNotFoundException || $e instanceof ProcessFailedException) {
+            return $output->writeln('<bg=red;options=bold>' . get_class($e) . ": </>\n<bg=red;>" . $e->getMessage() . ' </>');
         }
 
         return parent::renderForConsole($output, $e);

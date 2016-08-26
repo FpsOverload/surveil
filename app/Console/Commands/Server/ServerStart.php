@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Exceptions\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class ServerStart extends ServerCommand {
@@ -13,7 +14,7 @@ class ServerStart extends ServerCommand {
      */
     protected $signature = 'server:start 
                             {serverName=default : The id of the server to start}
-                            {--s|unsupervised : Start the server manually, not through supervisor}
+                            {--s|live : Start the server manually without a tmux session}
                         ';
     /**
      * The console command description.
@@ -21,6 +22,8 @@ class ServerStart extends ServerCommand {
      * @var string
      */
     protected $description = "Start a game server";
+
+    protected $gameCommand = '';
 
     /**
      * Execute the console command.
@@ -30,27 +33,40 @@ class ServerStart extends ServerCommand {
     public function fire()
     {
         $this->getServer();
+        $this->buildCommand();
         
-        if ($this->option('unsupervised')) {
-            return $this->startUnsupervisedServer();
+        if ($this->option('live')) {
+            return $this->startLiveServer();
         }
 
-        return $this->startSupervisedServer();
+        return $this->startTmuxServer();
     }
 
-    protected function startSupervisedServer()
+    protected function buildCommand()
     {
-        $command = 'supervisorctl start ' . $this->supervisor->supervisorProgramForServer($this->server->name);
-        (new Process($command))->setTimeout(null)->run(function($type, $line)
-        {
-            $this->info($this->supervisor->cleanSupervisorResponse($line, $this->server->name));
-        });
+        $this->gameCommand = 'cd ' . $this->server->path . ' && ./' . $this->server->binary . ' ' . $this->server->params;
     }
 
-    protected function startUnsupervisedServer()
+    protected function startTmuxServer()
     {
-        $command = 'cd ' . $this->server['path'] . ' && ./' . $this->server['binary'] . ' ' . $this->server->params;
-        (new Process($command))->setTimeout(null)->run(function($type, $line)
+        $command = 'tmx new-session -d -s "' . $this->server->name . '" "' . $this->gameCommand . '" 2> ' . storage_path('logs/' . $this->server->name .'-error.log');
+
+        $process = new Process($command);
+        $process->setTimeout(10);
+        $process->run();
+
+        $this->info($command);
+
+        if (!$process->isSuccessful()) {
+            throw new ProcessFailedException($process);
+        }
+
+        // $this->info($process->getOutput());
+    }
+
+    protected function startLiveServer()
+    {
+        (new Process($this->gameCommand))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);
         });
