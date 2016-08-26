@@ -64,21 +64,5 @@ class Handler extends ExceptionHandler
 
         return redirect()->guest('login');
     }
-
-    /**
-     * Render an exception to the console.
-     *
-     * @param  \Symfony\Component\Console\Output\OutputInterface  $output
-     * @param  \Exception  $e
-     * @return void
-     */
-    public function renderForConsole($output, Exception $e)
-    {
-        if ($e instanceof InvalidServerException || $e instanceof RconImplementationNotFoundException || $e instanceof ProcessFailedException) {
-            return $output->writeln('<bg=red;options=bold>' . get_class($e) . ": </>\n<bg=red;>" . $e->getMessage() . ' </>');
-        }
-
-        return parent::renderForConsole($output, $e);
-    }
     
 }
