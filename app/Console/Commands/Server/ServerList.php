@@ -25,9 +25,16 @@ class ServerList extends ServerCommand {
      */
     public function fire()
     {
-        $headers = ['Name', 'Path', 'Binary', 'Game', 'IP', 'Port', 'Params'];
+        $headers = ['Name', 'Path', 'Binary', 'Game', 'IP', 'Port', 'Params', 'Status'];
+        $servers = $this->server->get(['name', 'path', 'binary', 'game', 'ip', 'port', 'params']);
 
-        $this->table($headers, $this->server->get(['name', 'path', 'binary', 'game', 'ip', 'port', 'params']));
+        $servers->transform(function ($value) {
+            $value->status = $this->serverOnline($value['name']) ? 'Online' : 'Offline';
+
+            return $value;
+        });
+
+        $this->table($headers, $servers);
     }
 
 }
