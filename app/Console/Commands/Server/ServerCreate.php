@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Exceptions\InvalidServerException;
+use Illuminate\Database\QueryException;
+
 class ServerCreate extends ServerCommand {
     
     /**
@@ -45,7 +48,13 @@ class ServerCreate extends ServerCommand {
         $server['params'] = $this->collectConfiguration($this->argument('serverParams'), function() { return $this->ask('Server Startup Parameters'); } );
         $server['surveil'] = $this->collectConfiguration($this->argument('serverSurveil'), function() { return $this->ask('Run Surveil', true); } );
 
-        $this->server->create($server);
+        try { 
+            $this->server->create($server);
+        } catch (QueryException $e) {
+            if ($e->errorInfo[1] == 1062) {
+                throw new InvalidServerException('Server with name "' . $server['name'] . '" already exists.');
+            }
+        }
     }
 
     protected function collectConfiguration($argument, $else)

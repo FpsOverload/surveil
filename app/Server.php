@@ -16,4 +16,13 @@ class Server extends Model
         'name', 'path', 'binary', 'game', 'ip', 'port', 'rcon', 'params', 'surveil'
     ];
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'surveil' => 'boolean',
+    ];
+
 }
