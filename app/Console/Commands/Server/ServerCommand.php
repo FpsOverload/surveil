@@ -3,9 +3,11 @@
 namespace App\Console\Commands\Server;
 
 use App\Exceptions\InvalidServerException;
+use App\Exceptions\ProcessFailedException;
 use App\Server;
 use App\Surveil\Supervisor\SupervisorManager;
 use Illuminate\Console\Command;
+use Symfony\Component\Process\Process;
 
 class ServerCommand extends Command {
 
@@ -31,9 +33,12 @@ class ServerCommand extends Command {
         return;
     }
 
-    protected function serverStatus($serverName)
+    protected function serverOnline($serverName)
     {
+        $process = new Process('tmux list-sessions 2>&1 | awk "{print $1}" | grep -Ec "' . $this->prefixedServerName($serverName) . ':"');
+        $process->run();
 
+        return boolval(rtrim($process->getOutput()));
     }
 
     protected function prefixedServerName($serverName)
