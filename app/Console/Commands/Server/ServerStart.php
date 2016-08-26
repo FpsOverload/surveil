@@ -55,13 +55,19 @@ class ServerStart extends ServerCommand {
         $process->setTimeout(10);
         $process->run();
 
-        $this->info($command);
-
         if (!$process->isSuccessful()) {
-            throw new ProcessFailedException($process);
+            if ($this->serverOnline($this->server->name)) {
+                return $this->info('Server "' . $this->server->name . '" already running');
+            }
+
+            return $this->error('Server "' . $this->server->name . '" failed to start');
         }
 
-        // $this->info($process->getOutput());
+        if ($this->serverOnline($this->server->name)) {
+            return $this->info('Server "' . $this->server->name . '" started');
+        }
+
+        return $this->error('Server "' . $this->server->name . '" failed to start');
     }
 
     protected function startLiveServer()
