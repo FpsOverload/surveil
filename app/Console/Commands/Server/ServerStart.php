@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Server;
 
 use App\Exceptions\ProcessFailedException;
+use App\Exceptions\CommandFailedException;
 use Symfony\Component\Process\Process;
 
 class ServerStart extends ServerCommand {
@@ -60,14 +61,14 @@ class ServerStart extends ServerCommand {
                 return $this->info('Server "' . $this->server->name . '" already running');
             }
 
-            return $this->error('Server "' . $this->server->name . '" failed to start');
+            throw new CommandFailedException('Server "' . $this->server->name . '" failed to start');
         }
 
         if ($this->serverOnline($this->server->name)) {
             return $this->info('Server "' . $this->server->name . '" started');
         }
 
-        return $this->error('Server "' . $this->server->name . '" failed to start');
+        throw new CommandFailedException('Server "' . $this->server->name . '" failed to start');
     }
 
     protected function startLiveServer()
