@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Exceptions\CommandFailedException;
 use Symfony\Component\Process\Process;
 
 class ServerStop extends ServerCommand {
@@ -29,13 +30,25 @@ class ServerStop extends ServerCommand {
     public function fire()
     {
         $this->serverFromArgument();
-        
-        $command = 'supervisorctl stop ' . $this->supervisor->supervisorProgramForServer($this->server->name);
 
-        (new Process($command))->setTimeout(null)->run(function($type, $line)
-        {
-            $this->info($this->supervisor->cleanSupervisorResponse($line, $this->server->name));
-        });
+        $process = new Process('tmux kill-session -t "' . $this->prefixedServerName($this->server->name) . '"');
+        $process->setTimeout(10);
+        $process->run();
+
+
+        if (!$process->isSuccessful()) {
+            if ($this->serverOnline($this->server->name)) {
+                throw new CommandFailedException('Server "' . $this->server->name . '" failed to stop');
+            }
+
+            return $this->info('Server "' . $this->server->name . '" already stopped');
+        }
+
+        if ($this->serverOnline($this->server->name)) {
+            throw new CommandFailedException('Server "' . $this->server->name . '" failed to stop');
+        }
+
+        return $this->info('Server "' . $this->server->name . '" stopped');
     }
 
 }
