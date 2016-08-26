@@ -31,4 +31,23 @@ class ServerCommand extends Command {
         return;
     }
 
+    protected function serverStatus($serverName)
+    {
+
+    }
+
+    protected function prefixedServerName($serverName)
+    {
+        return config('surveil.prefix') . $serverName;
+    }
+
+    protected function logPath($logName, $logType = null)
+    {
+        if ($logType) {
+            return config('surveil.logPath') . $logName . ' - ' . $logType . '.log';
+        }
+
+        return config('surveil.logPath') . $logName . '.log';
+    }
+
 }
