@@ -1,27 +1,23 @@
-# Laravel PHP Framework
+# Surveil - Game Server Manager
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/d/total.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
+Surveil is a game server manager designed to make running and monitoring game servers quick and easy.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, queueing, and caching.
+Surveil currently supports Arma 3 and Call of Duty 4 (Both 1.7 and [Cod4X](http://cod4x.me/)).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
+## Features
 
-## Official Documentation
+* Stop/Start/Restart Servers
+* Manage Configurations
+* Monitor Server Events
+* Respond to Server Events
+* Track Player Statistics
 
-Documentation for the framework can be found on the [Laravel website](http://laravel.com/docs).
+## Requirements
 
-## Contributing
+Surveil is built for unix systems and is tested on Ubuntu 16.04 LTS.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](http://laravel.com/docs/contributions).
+Your server must be able to run the game you wish to serve, PHP7 and tmux.
 
-## Security Vulnerabilities
+## Additional Game Requirements
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell at taylor@laravel.com. All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
+Event tracking for Cod4X and Arma 3 requires a server side extension/plugin.
