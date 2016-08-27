@@ -59,15 +59,6 @@ class ServerCreate extends ServerCommand {
         $this->info(trans('servers.server_created'));
     }
 
-    protected function collectConfiguration($argument, $else)
-    {
-        if ($argument) {
-            return $argument;
-        }
-
-        return $else();
-    }
-
     protected function collectServerName()
     {
         $default = null;
