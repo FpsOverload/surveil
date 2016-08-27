@@ -27,7 +27,7 @@ class ServerCommand extends Command {
         }
 
         if (! $this->server) {
-            throw new InvalidServerException('Server "' . $this->argument('serverName') . '" not found.');
+            throw new InvalidServerException(trans('servers.not_found', ['server' => $this->argument('serverName')]));
         }
 
         return;

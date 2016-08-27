@@ -41,20 +41,22 @@ class ServerCreate extends ServerCommand {
         $server['name'] = $this->collectConfiguration($this->argument('serverName'), function() { return $this->collectServerName(); });
         $server['path'] = $this->collectConfiguration($this->argument('serverPath'), function() { return $this->collectPath(); } );
         $server['binary'] = $this->collectConfiguration($this->argument('serverBinary'), function() use ($server) { return $this->collectBinary($server['path']); } );
-        $server['game'] = $this->collectConfiguration($this->argument('serverGame'), function() { return $this->choice('Server Game', ['cod4', 'cod4x', 'arma3']); } );
-        $server['ip'] = $this->collectConfiguration($this->argument('serverIp'), function() { return $this->ask('Server IP', '127.0.0.1'); } );
-        $server['port'] = $this->collectConfiguration($this->argument('serverPort'), function() { return $this->ask('Server Port'); } );
-        $server['rcon'] = $this->collectConfiguration($this->argument('serverRcon'), function() { return $this->secret('Server Rcon Password'); } );
-        $server['params'] = $this->collectConfiguration($this->argument('serverParams'), function() { return $this->ask('Server Startup Parameters'); } );
-        $server['surveil'] = $this->collectConfiguration($this->argument('serverSurveil'), function() { return $this->ask('Run Surveil', true); } );
+        $server['game'] = $this->collectConfiguration($this->argument('serverGame'), function() { return $this->choice(trans('servers.create.game'), ['cod4', 'cod4x', 'arma3']); } );
+        $server['ip'] = $this->collectConfiguration($this->argument('serverIp'), function() { return $this->ask(trans('servers.create.ip'), '127.0.0.1'); } );
+        $server['port'] = $this->collectConfiguration($this->argument('serverPort'), function() { return $this->ask(trans('servers.create.port')); } );
+        $server['rcon'] = $this->collectConfiguration($this->argument('serverRcon'), function() { return $this->secret(trans('servers.create.rcon')); } );
+        $server['params'] = $this->collectConfiguration($this->argument('serverParams'), function() { return $this->ask(trans('servers.create.params')); } );
+        $server['surveil'] = $this->collectConfiguration($this->argument('serverSurveil'), function() { return $this->ask(trans('servers.create.surveil'), true); } );
 
         try { 
             $this->server->create($server);
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
-                throw new InvalidServerException('Server with name "' . $server['name'] . '" already exists.');
+                throw new InvalidServerException(trans('servers.name_exists', ['name' => $server['name']]));
             }
         }
+
+        $this->info(trans('servers.server_created'));
     }
 
     protected function collectConfiguration($argument, $else)
@@ -74,10 +76,10 @@ class ServerCreate extends ServerCommand {
             $default = 'default';
         } 
 
-        $serverName = $this->ask('Server Name', $default);
+        $serverName = $this->ask(trans('servers.create.name'), $default);
 
         if ($this->server->where('name', $serverName)->count()) {
-            $this->error('Server id taken, try again');
+            $this->error(trans('servers.name_exists_try', ['name' => $serverName]));
             return $this->collectServerName();
         }
 
@@ -86,10 +88,10 @@ class ServerCreate extends ServerCommand {
 
     protected function collectPath()
     {
-        $path = $this->anticipate('Binary directory, do not include the binary name', array_column($this->server->get(['path'])->toArray(), 'path'));
+        $path = $this->anticipate(trans('servers.create.path'), array_column($this->server->get(['path'])->toArray(), 'path'));
 
         if (! is_dir($path)) {
-            $this->error('Please enter a valid path');
+            $this->error(trans('servers.invalid_path_try', ['path' => $path]));
             return $this->collectPath();
         }
 
@@ -98,10 +100,10 @@ class ServerCreate extends ServerCommand {
 
     protected function collectBinary($path)
     {
-        $binary = $this->anticipate('Binary name', array_column($this->server->get(['binary'])->toArray(), 'binary'));
+        $binary = $this->anticipate(trans('servers.create.binary'), array_column($this->server->get(['binary'])->toArray(), 'binary'));
 
         if (! is_file($path . '/' . $binary)) {
-            $this->error('Please enter a valid binary');
+            $this->error(trans('servers.invalid_binary_try', ['binary' => $binary]));
             return $this->collectBinary($path);
         }
 
