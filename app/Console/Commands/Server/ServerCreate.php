@@ -29,7 +29,7 @@ class ServerCreate extends ServerCommand {
      *
      * @var string
      */
-    protected $description = "Create a new game server configuration";
+    protected $description = "Create a new game server";
 
     /**
      * Execute the console command.
