@@ -9,24 +9,10 @@ class ServerCommand extends Command {
 
     protected function serverOnline($serverName)
     {
-        $process = new Process('tmux list-sessions 2>&1 | awk "{print $1}" | grep -Ec "' . $this->prefixedServerName($serverName) . ':"');
+        $process = new Process('tmux list-sessions 2>&1 | awk "{print $1}" | grep -Ec "' . prefixedServerName($serverName) . ':"');
         $process->run();
 
         return boolval(rtrim($process->getOutput()));
-    }
-
-    protected function prefixedServerName($serverName)
-    {
-        return config('surveil.prefix') . $serverName;
-    }
-
-    protected function logPath($logName, $logType = null)
-    {
-        if ($logType) {
-            return config('surveil.logPath') . $logName . '-' . $logType . '.log';
-        }
-
-        return config('surveil.logPath') . $logName . '.log';
     }
 
 }

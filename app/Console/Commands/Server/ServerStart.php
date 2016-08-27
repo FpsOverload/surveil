@@ -50,7 +50,7 @@ class ServerStart extends ServerCommand {
 
     protected function startTmuxServer()
     {
-        $command = 'tmux new-session -d -s "' . $this->prefixedServerName($this->server->name) . '" "' . $this->gameCommand . '" 2> ' . $this->logPath($this->server->name, 'error');
+        $command = 'tmux new-session -d -s "' . prefixedServerName($this->server->name) . '" "' . $this->gameCommand . '" 2> ' . logPath($this->server->name, 'error');
 
         $process = new Process($command);
         $process->setTimeout(10);

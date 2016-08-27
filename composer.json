@@ -22,7 +22,10 @@
         ],
         "psr-4": {
             "App\\": "app/"
-        }
+        },
+        "files": [
+            "app/Surveil/Helpers.php"
+        ]
     },
     "autoload-dev": {
         "classmap": [

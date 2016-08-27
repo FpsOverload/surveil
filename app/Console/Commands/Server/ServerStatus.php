@@ -31,11 +31,11 @@ class ServerStatus extends ServerCommand {
         $this->serverFromArgument();
         
         if ($this->serverOnline($this->server->name)) {
-            $this->comment('Online (tmux:'. $this->prefixedServerName($this->server->name) .')');
+            $this->comment('Online (tmux:'. prefixedServerName($this->server->name) .')');
             return;
         }
 
-        $this->comment('Offline (tmux:'. $this->prefixedServerName($this->server->name) .')');
+        $this->comment('Offline (tmux:'. prefixedServerName($this->server->name) .')');
     }
 
 }

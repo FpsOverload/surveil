@@ -31,7 +31,7 @@ class ServerStop extends ServerCommand {
     {
         $this->serverFromArgument();
 
-        $process = new Process('tmux kill-session -t "' . $this->prefixedServerName($this->server->name) . '"');
+        $process = new Process('tmux kill-session -t "' . prefixedServerName($this->server->name) . '"');
         $process->setTimeout(10);
         $process->run();
 
