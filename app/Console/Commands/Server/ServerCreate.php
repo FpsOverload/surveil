@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands\Server;
 
-use App\Exceptions\InvalidServerException;
+use App\Exceptions\NameExistsException;
 use Illuminate\Database\QueryException;
 
 class ServerCreate extends ServerCommand {
@@ -52,7 +52,7 @@ class ServerCreate extends ServerCommand {
             $this->server->create($server);
         } catch (QueryException $e) {
             if ($e->errorInfo[1] == 1062) {
-                throw new InvalidServerException(trans('servers.name_exists', ['name' => $server['name']]));
+                throw new NameExistsException(trans('servers.name_exists', ['name' => $server['name']]));
             }
         }
 
