@@ -12,10 +12,5 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        DB::table('options')->insert([
-            ['option' => 'supervisor_prefix', 'value' => 'surveil_'],
-            ['option' => 'supervisor_user', 'value' => 'oliver'],
-            ['option' => 'supervisor_config', 'value' => '/etc/supervisor/conf.d/surveil.conf']
-        ]);
     }
 }
