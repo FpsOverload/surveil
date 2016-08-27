@@ -2,36 +2,10 @@
 
 namespace App\Console\Commands\Server;
 
-use App\Exceptions\InvalidServerException;
-use App\Exceptions\ProcessFailedException;
-use App\Server;
-use App\Surveil\Supervisor\SupervisorManager;
-use Illuminate\Console\Command;
+use App\Console\Commands\Command;
 use Symfony\Component\Process\Process;
 
 class ServerCommand extends Command {
-
-    protected $server;
-
-    function __construct(Server $server)
-    {
-        parent::__construct();
-
-        $this->server = $server;
-    }
-
-    protected function serverFromArgument()
-    {
-        if ($this->argument('serverName')) {
-            $this->server = Server::where('name', $this->argument('serverName'))->first();
-        }
-
-        if (! $this->server) {
-            throw new InvalidServerException(trans('servers.not_found', ['server' => $this->argument('serverName')]));
-        }
-
-        return;
-    }
 
     protected function serverOnline($serverName)
     {
