@@ -19,6 +19,12 @@ return [
         'rcon' => 'Server RCON Password',
         'params' => 'Server Parameters',
         'surveil' => 'Run Surveil on Server?'
+    ],
+
+    'delete' => [
+        'confirm' => 'Are you sure you wish to delete ":server"?',
+        'aborted' => 'Server deletion aborted.',
+        'success' => 'Server deleted successfully.'
     ]
 
 ];

@@ -34,18 +34,18 @@ class ServerDelete extends ServerCommand {
             return $this->delete();
         }
         
-        if ($this->confirm('Are you sure you wish to delete ' . $this->server->name . '?')) {
+        if ($this->confirm(trans('servers.delete.confirm', ['server' => $this->server->name]))) {
             return $this->delete();
         }
 
-        $this->info('Aborted');
+        $this->comment(trans('servers.delete.aborted'));
     }
 
     protected function delete()
     {
         $this->server->delete();
 
-        $this->info("Server deleted");
+        $this->info(trans('servers.delete.success'));
 
         return;
     }
