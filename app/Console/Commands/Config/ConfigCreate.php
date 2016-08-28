@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Console\Commands\Server;
+namespace App\Console\Commands\Config;
 
 use App\Config;
 use App\Exceptions\NameExistsException;
@@ -13,7 +13,7 @@ class ConfigCreate extends ConfigCommand {
      *
      * @var string
      */
-    protected $signature = 'server:create
+    protected $signature = 'config:create
                             {serverName? : Server you wish to add config to}
                             {configName? : The name of the config}
                             {serverParams? : The server startup parameters}

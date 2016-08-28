@@ -21,7 +21,17 @@ class Kernel extends ConsoleKernel
         Commands\Server\ServerStatus::class,
 
         Commands\Rcon\RconOverview::class,
+
+        Commands\Config\ConfigCreate::class,
     ];
+
+    /**
+     * List added commands.
+     */
+    public function listCommands()
+    {
+        return $this->commands;
+    }
 
     /**
      * Define the application's command schedule.
@@ -44,4 +54,5 @@ class Kernel extends ConsoleKernel
     {
         require base_path('routes/console.php');
     }
+
 }
