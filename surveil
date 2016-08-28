@@ -10,6 +10,20 @@ require __DIR__.'/bootstrap/autoload.php';
 
 $app = require __DIR__.'/bootstrap/app.php';
 
+$bootstrappers = [
+    'Illuminate\Foundation\Bootstrap\DetectEnvironment',
+    'Illuminate\Foundation\Bootstrap\LoadConfiguration',
+    'Illuminate\Foundation\Bootstrap\ConfigureLogging',
+    'Illuminate\Foundation\Bootstrap\HandleExceptions',
+    'Illuminate\Foundation\Bootstrap\RegisterFacades',
+    'Illuminate\Foundation\Bootstrap\SetRequestForConsole',
+    'Illuminate\Foundation\Bootstrap\RegisterProviders',
+    'Illuminate\Foundation\Bootstrap\BootProviders',
+];
+
+if (! $app->hasBeenBootstrapped()) {
+    $app->bootstrapWith($bootstrappers);
+}
 
 $kernel = $app->make(Kernel::class);
 
