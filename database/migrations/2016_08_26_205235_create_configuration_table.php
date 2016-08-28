@@ -16,9 +16,10 @@ class CreateConfigurationTable extends Migration
         Schema::create('configurations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('server_id');
-            $table->string('name')->unique();
+            $table->string('name');
             $table->string('params');
             $table->boolean('surveil');
+            $table->unique(['server_id', 'name']);
             $table->timestamps();
         });
     }

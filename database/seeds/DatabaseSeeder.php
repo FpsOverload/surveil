@@ -12,5 +12,15 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
+        App\Server::create([
+            'name' => 'default',
+            'path' => 'home/oliver/cod4',
+            'binary' => 'cod4x_dedrun',
+            'game' => 'cod4',
+            'ip' => '127.0.0.1',
+            'port' => '28960',
+            'rcon' => 'qwertyuiop',
+            'params' => '+exec server.cfg +map mp_crossfire'
+        ]);
     }
 }
