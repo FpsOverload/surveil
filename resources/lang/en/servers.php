@@ -25,6 +25,21 @@ return [
         'confirm' => 'Are you sure you wish to delete ":server"?',
         'aborted' => 'Server deletion aborted.',
         'success' => 'Server deleted successfully.'
+    ],
+
+    'config' => [
+
+        'not_found' => 'Config ":name" not found.',
+        'config_created' => 'Config created successfully.',
+        'name_exists' => 'Config with name ":name" already exists.',
+        'name_exists_try' => 'Config with name ":name" already exists, try again.',
+
+        'create' => [
+
+            'name' => 'Config Name (used to load configuration)',
+
+        ]
+
     ]
 
 ];
