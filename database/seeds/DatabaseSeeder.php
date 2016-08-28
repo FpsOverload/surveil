@@ -14,8 +14,8 @@ class DatabaseSeeder extends Seeder
         // $this->call(UsersTableSeeder::class);
         App\Server::create([
             'name' => 'default',
-            'path' => 'home/oliver/cod4',
-            'binary' => 'cod4x_dedrun',
+            'path' => '/home/oliver/cod4',
+            'binary' => 'cod4x18_dedrun',
             'game' => 'cod4',
             'ip' => '127.0.0.1',
             'port' => '28960',
