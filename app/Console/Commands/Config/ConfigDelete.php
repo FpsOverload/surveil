@@ -4,7 +4,7 @@ namespace App\Console\Commands\Config;
 
 use App\Config;
 use App\Configuration;
-use App\Exceptions\InvalidServerException;
+use App\Exceptions\InvalidConfigException;
 use App\Exceptions\NameExistsException;
 use Illuminate\Database\QueryException;
 
@@ -40,7 +40,7 @@ class ConfigDelete extends ConfigCommand {
         $config = $this->server->configs()->where('name', $this->argument('configName'))->first();
 
         if (! $config) {
-            throw new InvalidServerException(trans('servers.config.not_found_for', ['name' => $this->argument('configName'), 'server' => $this->server->name]));
+            throw new InvalidConfigException(trans('servers.config.not_found_for', ['name' => $this->argument('configName'), 'server' => $this->server->name]));
         }
 
         if ($this->option('force')) {
