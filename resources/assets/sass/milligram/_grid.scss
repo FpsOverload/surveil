@@ -1,0 +1,72 @@
+.container {
+    position: relative;
+    width: 100%;
+    max-width: $container-width;
+    margin: 0 auto;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+.fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+.column,
+.columns {
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+}
+
+/* For devices larger than 400px */
+@media #{$mobile} {
+    .container {
+        width: 85%;
+        padding: 0;
+    }
+}
+
+/* For devices larger than 550px */
+@media #{$phablet} {
+    .container {
+        width: 80%; 
+    }
+
+    .column,
+    .columns {
+        padding: 0 1.5rem;
+    }
+
+    .column:first-child,
+    .columns:first-child {
+        padding-left: 0;
+    }
+    .column:last-child,
+    .columns:last-child {
+        padding-right: 0;
+    }
+
+    .one.column,
+    .one.columns                    { width: percentage(1/12) }
+    .two.columns                    { width: percentage(2/12) }
+    .three.columns                  { width: percentage(3/12) }
+    .four.columns                   { width: percentage(4/12) }
+    .five.columns                   { width: percentage(5/12) }
+    .six.columns,
+    .half.column                    { width: percentage(6/12) }
+    .seven.columns                  { width: percentage(7/12) }
+    .eight.columns                  { width: percentage(8/12) }
+    .nine.columns                   { width: percentage(9/12) }
+    .ten.columns                    { width: percentage(10/12) }
+    .eleven.columns                 { width: percentage(11/12) }
+    .twelve.columns                 { width: 100%; margin-left: 0; }
+}
+
+.container:after,
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+

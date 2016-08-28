@@ -1,0 +1,88 @@
+
+// Button
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+
+.btn,
+button,
+input[type='button'],
+input[type='reset'],
+input[type='submit'] {
+    background-color: transparent;
+    border: .1rem solid $dark-color;
+    box-sizing: border-box;
+    color: $dark-color;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.4rem;
+    font-weight: 400;
+    height: 4rem;
+    letter-spacing: 0.05rem;
+    padding: 1.01rem 3rem;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
+        background-color: $color-secondary;
+        border-color: $color-secondary;
+        color: $color-initial;
+        outline: 0;
+    }
+
+}
+
+.btn-block {
+    width: 100%;
+}
+
+.btn-primary {
+    background: $red-color;
+    color: $light-color;
+    border: 1px solid darken($red-color, 10%);
+
+    &:hover {
+        background: darken($red-color, 5%);
+        color: $light-color;
+    }
+}
+
+.btn-action {
+    background: $action-color;
+    border: 1px solid $action-color-dark;
+    color: $light-color;
+
+    &:hover {
+        background: darken($action-color, 5%);
+        color: $light-color;
+    }
+}
+
+/*
+ * Upload Button
+ */
+.btn-upload {
+  overflow: hidden;
+  position: relative;
+
+  input[type="file"] {
+    cursor: pointer;
+    margin: 0;
+    opacity: 0;
+    padding: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+/*
+ * Small Button
+ */
+.btn-small {
+    font-size: 1.3rem;
+    padding: 0.6rem 1.4rem;
+    height: 3.2rem
+}

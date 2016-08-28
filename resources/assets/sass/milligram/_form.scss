@@ -1,0 +1,82 @@
+
+// Form
+// ––––––––––––––––––––––––––––––––––––––––––––––––––
+
+input[type='email'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='url'],
+input[type='date'],
+textarea,
+select {
+    appearance: none; // Removes awkward default styles on some inputs for iOS
+    background-color: transparent;
+    border: 0;
+    border-bottom: .1rem solid $color-quaternary;
+    border-radius: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    height: 3.8rem;
+    padding: .6rem 1.0rem; // The .6rem vertically centers text on FF, ignored by Webkit
+    width: 100%;
+
+    &:focus {
+        outline: 0;
+    }
+}
+
+input.input-large {
+    height: 5.3rem;
+    padding-left: 2rem;
+    font-size: 1.6rem;
+}
+
+textarea {
+    padding-bottom: .6rem;
+    padding-top: .6rem;
+    min-height: 6.5rem;
+    resize: none;
+}
+
+label,
+legend {
+    font-weight: 700;
+    display: block;
+    margin-bottom: .5rem;
+}
+
+fieldset {
+    border-width: 0;
+    padding: 0;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+    display: inline;
+}
+
+.label-inline {
+    font-weight: normal;
+    display: inline-block;
+    margin-left: .5rem;
+}
+
+/*
+ * Errors
+ */
+.form-group.has-error, .column.has-error, .columns.has-error {
+    input, textarea {
+        border-color: rgb(232, 102, 104);
+    }
+
+    .help-block {
+        margin-top: 0.4rem;
+        font-size: 1.1rem;
+        display: block;
+        text-align: right;
+        color: rgb(232, 102, 104);
+    }
+}
