@@ -28,7 +28,6 @@ return [
     ],
 
     'config' => [
-
         'not_found' => 'Config ":name" not found.',
         'not_found_for' => 'Config ":name" not found for Server ":server".',
         'config_created' => 'Config created successfully.',
@@ -36,11 +35,14 @@ return [
         'name_exists_try' => 'Config with name ":name" already exists, try again.',
 
         'create' => [
-
             'name' => 'Config Name (used to load configuration)',
+        ],
 
+        'delete' => [
+            'confirm' => 'Are you sure you wish to delete ":name" on ":server"?',
+            'aborted' => 'Config deletion aborted.',
+            'success' => 'Config deleted successfully.'
         ]
-
     ]
 
 ];

@@ -23,6 +23,7 @@ class Kernel extends ConsoleKernel
         Commands\Rcon\RconOverview::class,
 
         Commands\Config\ConfigCreate::class,
+        Commands\Config\ConfigDelete::class,
     ];
 
     /**
