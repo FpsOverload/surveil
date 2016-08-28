@@ -758,6 +758,50 @@ h6 {
   .clearfix:after {
     clear: both; }
 
+body,
+html {
+  height: 100%;
+  background: #eaeaea; }
+
+#main-page-header {
+  display: -webkit-box;
+  display: flex;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  height: 80px;
+  width: 100%;
+  position: fixed;
+  background: #2b303b;
+  border-bottom: 1px solid #2b303b; }
+  #main-page-header h1 {
+    width: 300px;
+    text-align: center;
+    margin: 0;
+    font-size: 28px;
+    letter-spacing: 0.05rem;
+    color: rgba(255, 255, 255, 0.8); }
+    #main-page-header h1 small {
+      margin-top: 5px;
+      display: block;
+      font-size: 14px; }
+  #main-page-header nav ul {
+    padding: 0 2rem;
+    margin: 0;
+    list-style-type: none; }
+    #main-page-header nav ul li {
+      display: inline-block;
+      margin-left: 2rem; }
+
+#main-page-container {
+  padding-top: 80px;
+  height: 100%;
+  background: #303642;
+  width: 300px;
+  -webkit-box-flex: 0;
+  flex: 0 300px; }
+
 .float-left {
   float: left; }
 
