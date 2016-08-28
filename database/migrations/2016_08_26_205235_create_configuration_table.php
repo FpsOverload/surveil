@@ -18,6 +18,7 @@ class CreateConfigurationTable extends Migration
             $table->integer('server_id');
             $table->string('name')->unique();
             $table->string('params');
+            $table->boolean('surveil');
             $table->timestamps();
         });
     }

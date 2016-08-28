@@ -25,4 +25,9 @@ class Server extends Model
         'surveil' => 'boolean',
     ];
 
+    public function configs()
+    {
+        return $this->hasMany(Ap\Configuration::class);
+    }
+
 }
