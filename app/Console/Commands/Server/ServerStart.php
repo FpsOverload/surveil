@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands\Server;
 
-use App\Exceptions\ProcessFailedException;
 use App\Exceptions\CommandFailedException;
+use App\Exceptions\InvalidServerException;
+use App\Exceptions\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
 class ServerStart extends ServerCommand {
@@ -15,6 +16,7 @@ class ServerStart extends ServerCommand {
      */
     protected $signature = 'server:start 
                             {serverName=default : The id of the server to start}
+                            {configName? : Start server with specifiec configuration}
                             {--s|live : Start the server manually without a tmux session}
                         ';
     /**
@@ -45,7 +47,18 @@ class ServerStart extends ServerCommand {
 
     protected function buildCommand()
     {
-        $this->gameCommand = 'cd ' . $this->server->path . ' && ./' . $this->server->binary . ' ' . $this->server->params;
+        $params = $this->server->params;
+        if ($this->argument('configName')) {
+            $config = $this->server->configs()->where('name', $this->argument('configName'))->first();
+
+            if (! $config) {
+                throw new InvalidServerException(trans('servers.config.not_found_for', ['name' => $this->argument('configName'), 'server' => $this->server->name]));
+            }
+
+            $params = $config->params;
+        }
+
+        $this->gameCommand = 'cd ' . $this->server->path . ' && ./' . $this->server->binary . ' ' . $params;
     }
 
     protected function startTmuxServer()

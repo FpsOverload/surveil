@@ -27,7 +27,7 @@ class Configuration extends Model
 
     public function server()
     {
-        return $this->belongsTo(App\Server::class);
+        return $this->belongsTo(Server::class);
     }
     
 }

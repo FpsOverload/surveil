@@ -27,7 +27,7 @@ class Server extends Model
 
     public function configs()
     {
-        return $this->hasMany(Ap\Configuration::class);
+        return $this->hasMany(Configuration::class);
     }
 
 }

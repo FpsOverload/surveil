@@ -30,6 +30,7 @@ return [
     'config' => [
 
         'not_found' => 'Config ":name" not found.',
+        'not_found_for' => 'Config ":name" not found for Server ":server".',
         'config_created' => 'Config created successfully.',
         'name_exists' => 'Config with name ":name" already exists.',
         'name_exists_try' => 'Config with name ":name" already exists, try again.',
