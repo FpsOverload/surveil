@@ -776,7 +776,7 @@ html {
   background: #2b303b;
   border-bottom: 1px solid #2b303b; }
   #main-page-header h1 {
-    width: 300px;
+    width: 240px;
     text-align: center;
     margin: 0;
     font-size: 28px;
@@ -798,9 +798,9 @@ html {
   padding-top: 80px;
   height: 100%;
   background: #303642;
-  width: 300px;
+  width: 240px;
   -webkit-box-flex: 0;
-  flex: 0 300px; }
+  flex: 0 240px; }
 
 .float-left {
   float: left; }
