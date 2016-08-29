@@ -31,6 +31,6 @@ $factory->define(App\Server::class, function (Faker\Generator $faker) {
         'ip' => '127.0.0.1',
         'port' => '28960',
         'rcon' => str_random(8),
-        'params' => '+exec server.cfg +map mp_crossfire'
+        'default_params' => '+exec server.cfg +map mp_crossfire'
     ];
 });

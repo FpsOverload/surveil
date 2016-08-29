@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             'ip' => '127.0.0.1',
             'port' => '28960',
             'rcon' => 'qwertyuiop',
-            'params' => '+exec server.cfg +map mp_crossfire'
+            'default_params' => '+exec server.cfg +map mp_crossfire'
         ]);
     }
 }
