@@ -23,8 +23,8 @@ class CreateServersTable extends Migration
             $table->string('port');
             $table->string('rcon');
             $table->string('default_params');
+            $table->boolean('default_surveil')->default(true);
             $table->integer('active_config')->nullable()->default(null);
-            $table->boolean('surveil')->default(true);
             $table->timestamps();
         });
     }
