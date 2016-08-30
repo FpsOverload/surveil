@@ -2,7 +2,6 @@
 
 namespace App\Surveil\Servers;
 
-use App\Configuration;
 use App\Exceptions\ServerOfflineException;
 use App\Exceptions\ServerOnlineException;
 use App\Server;
@@ -15,7 +14,7 @@ class ServerIgniter {
      */
     protected $server;
 
-    function __construct(Server $server, Configuration $config)
+    function __construct(Server $server)
     {
         $this->server = $server;
     }
