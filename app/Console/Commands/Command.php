@@ -30,8 +30,8 @@ class Command extends IlluminateCommand {
 
     protected function collectConfiguration($argument, $else)
     {
-        if ($argument) {
-            return $argument;
+        if ($this->argument($argument)) {
+            return $this->argument($argument);
         }
 
         return $else();

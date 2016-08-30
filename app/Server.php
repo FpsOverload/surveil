@@ -14,7 +14,7 @@ class Server extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'path', 'binary', 'game', 'ip', 'port', 'rcon', 'params', 'surveil'
+        'name', 'path', 'binary', 'game', 'ip', 'port', 'rcon', 'default_params', 'default_surveil'
     ];
 
     /**

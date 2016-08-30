@@ -9,12 +9,12 @@ class ServerValidator {
 
     public function validateCreate($input)
     {
-        $this->runValidation($input, $this->createValidationRules());
+        return $this->runValidation($input, $this->createValidationRules());
     }
 
     public function validateUpdate($input)
     {
-        $this->runValidation($input, $this->updateValidationRules());
+        return $this->runValidation($input, $this->updateValidationRules());
     }
 
     protected function runValidation($input, $rules)
@@ -25,9 +25,10 @@ class ServerValidator {
         $validator = Validator::make($input, $rules);
 
         if ($validator->fails()) {
-            dd($validator->errors()->messages());
+            throw new \Exception(implode(' ', $validator->errors()->all()));
         }
         
+        return true;
     }
 
     protected function createValidationRules()
@@ -40,8 +41,8 @@ class ServerValidator {
             'ip' => 'required',
             'port' => 'required|numeric',
             'rcon' => 'required',
-            'params' => 'required',
-            'surveil' => 'required|boolean'
+            'default_params' => 'required',
+            'default_surveil' => 'required|boolean'
         ];
     }
 
@@ -55,8 +56,8 @@ class ServerValidator {
             'ip' => 'required',
             'port' => 'required|numeric',
             'rcon' => 'required',
-            'params' => 'required',
-            'surveil' => 'required|boolean'
+            'default_params' => 'required',
+            'default_surveil' => 'required|boolean'
         ];
     }
 

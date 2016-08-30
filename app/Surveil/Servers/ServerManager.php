@@ -7,22 +7,28 @@ use Illuminate\Support\Facades\Validator;
 
 class ServerManager {
 
-    /* 
-     * Instance of App\Server
-     */
-    protected $server;
+    protected $server, $validator;
 
     /* 
      * Initialize ServerIgniter
      */
-    function __construct(Server $server)
+    function __construct(Server $server, ServerValidator $validator)
     {
         $this->server = $server;
+        $this->validator = $validator;
     }
 
-    public function create()
+    public function create($input)
     {
+        $input['default_surveil'] = boolval($input['default_surveil']);
 
+        if ($this->validator->validateCreate($input)) {
+            $this->server->create($input);
+            
+            return true;
+        }
+
+        return false;
     }
 
     public function destroy()
@@ -33,11 +39,6 @@ class ServerManager {
     public function update()
     {
 
-    }
-
-    protected function validate($input, $rules)
-    {
-        Validator::make($input, $rules);
     }
 
 }

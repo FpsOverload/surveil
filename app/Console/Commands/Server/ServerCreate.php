@@ -4,7 +4,10 @@ namespace App\Console\Commands\Server;
 
 use App\Console\Commands\Command;
 use App\Exceptions\NameExistsException;
+use App\Surveil\Servers\ServerManager;
 use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Validator;
 
 class ServerCreate extends Command {
     
@@ -14,15 +17,15 @@ class ServerCreate extends Command {
      * @var string
      */
     protected $signature = 'server:create
-                            {serverName? : The server name}
-                            {serverPath? : The server path}
-                            {serverBinary? : The server binary}
-                            {serverGame? : The server game}
-                            {serverIp? : The server ip}
-                            {serverPort? : The server port}
-                            {serverRcon? : The server rcon}
-                            {serverParams? : The server params}
-                            {serverSurveil? : Run surveil on server}
+                            {name? : A unique name for your server}
+                            {path? : Path to the folder of your server}
+                            {binary? : Path to the binary (relative to `path`)}
+                            {game? : The game the server is running}
+                            {ip? : Hostname to connect to the server}
+                            {port? : Port to connect to the server}
+                            {rcon? : Password to access servers rcon}
+                            {params? : Start up parameters for server}
+                            {surveil? : Whether to run surveil on server}
                         ';
 
     /**
@@ -39,38 +42,35 @@ class ServerCreate extends Command {
      */
     public function fire()
     {
-        $server['name'] = $this->collectConfiguration($this->argument('serverName'), function() { return $this->collectServerName(); });
-        $server['path'] = $this->collectConfiguration($this->argument('serverPath'), function() { return $this->collectPath(); } );
-        $server['binary'] = $this->collectConfiguration($this->argument('serverBinary'), function() use ($server) { return $this->collectBinary($server['path']); } );
-        $server['game'] = $this->collectConfiguration($this->argument('serverGame'), function() { return $this->choice(trans('servers.create.game'), ['cod4', 'cod4x', 'arma3']); } );
-        $server['ip'] = $this->collectConfiguration($this->argument('serverIp'), function() { return $this->ask(trans('servers.create.ip'), '127.0.0.1'); } );
-        $server['port'] = $this->collectConfiguration($this->argument('serverPort'), function() { return $this->ask(trans('servers.create.port')); } );
-        $server['rcon'] = $this->collectConfiguration($this->argument('serverRcon'), function() { return $this->secret(trans('servers.create.rcon')); } );
-        $server['params'] = $this->collectConfiguration($this->argument('serverParams'), function() { return $this->ask(trans('servers.create.params')); } );
-        $server['surveil'] = $this->collectConfiguration($this->argument('serverSurveil'), function() { return $this->ask(trans('servers.create.surveil'), true); } );
+        $server['name'] = $this->collectConfiguration('name', function() { return $this->collectServerName(); });
+        $server['path'] = $this->collectConfiguration('path', function() { return $this->collectPath(); } );
+        $server['binary'] = $this->collectConfiguration('binary', function() use ($server) { return $this->collectBinary($server['path']); } );
+        $server['game'] = $this->collectConfiguration('game', function() { return $this->choice(trans('servers.create.game'), ['cod4', 'cod4x', 'arma3']); } );
+        $server['ip'] = $this->collectConfiguration('ip', function() { return $this->ask(trans('servers.create.ip'), '127.0.0.1'); } );
+        $server['port'] = $this->collectConfiguration('port', function() { return $this->ask(trans('servers.create.port')); } );
+        $server['rcon'] = $this->collectConfiguration('rcon', function() { return $this->secret(trans('servers.create.rcon')); } );
+        $server['default_params'] = $this->collectConfiguration('params', function() { return $this->ask(trans('servers.create.params')); } );
+        $server['default_surveil'] = $this->collectConfiguration('surveil', function() { return $this->confirm(trans('servers.create.surveil'), true); } );
 
-        try { 
-            $this->server->create($server);
-        } catch (QueryException $e) {
-            if ($e->errorInfo[1] == 1062) {
-                throw new NameExistsException(trans('servers.name_exists', ['name' => $server['name']]));
-            }
+        $manager = App::make(ServerManager::class);
+
+        if ($manager->create($server)) {
+            $this->info(trans('servers.server_created'));
         }
-
-        $this->info(trans('servers.server_created'));
     }
 
     protected function collectServerName()
     {
         $default = null;
-
-        if ($this->server->where('name', 'default')->count() == 0) {
+        if ($this->server->where('servers.name', 'default')->count() == 0) {
             $default = 'default';
         } 
 
         $serverName = $this->ask(trans('servers.create.name'), $default);
 
-        if ($this->server->where('name', $serverName)->count()) {
+        $validator = Validator::make(['name' => $serverName], ['name' => 'unique:servers']);
+
+        if ($validator->fails()) {
             $this->error(trans('servers.name_exists_try', ['name' => $serverName]));
             return $this->collectServerName();
         }
