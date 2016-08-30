@@ -82,7 +82,7 @@ class ServerCreate extends Command {
     {
         $path = $this->anticipate(trans('servers.create.path'), array_column($this->server->get(['path'])->toArray(), 'path'));
 
-        if (! is_dir($path)) {
+        if (! validate_server_path($path)) {
             $this->error(trans('servers.invalid_path_try', ['path' => $path]));
             return $this->collectPath();
         }
@@ -94,7 +94,7 @@ class ServerCreate extends Command {
     {
         $binary = $this->anticipate(trans('servers.create.binary'), array_column($this->server->get(['binary'])->toArray(), 'binary'));
 
-        if (! is_file($path . '/' . $binary)) {
+        if (! validate_server_binary($binary, $path)) {
             $this->error(trans('servers.invalid_binary_try', ['binary' => $binary]));
             return $this->collectBinary($path);
         }
