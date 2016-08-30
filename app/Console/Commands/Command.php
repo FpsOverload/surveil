@@ -19,7 +19,7 @@ class Command extends IlluminateCommand {
 
     protected function serverFromArgument()
     {
-        $this->server = Server::where('name', $this->argument('serverName'))->first();
+        $this->server = Server::where('servers.name', $this->argument('serverName'))->first();
 
         if (! $this->server) {
             throw new InvalidServerException(trans('servers.not_found', ['server' => $this->argument('serverName')]));
