@@ -17,7 +17,6 @@ class Kernel extends ConsoleKernel
         Commands\Server\ServerStart::class,
         Commands\Server\ServerStop::class,
         Commands\Server\ServerDelete::class,
-        Commands\Server\ServerList::class,
         Commands\Server\ServerStatus::class,
 
         Commands\Rcon\RconOverview::class,
