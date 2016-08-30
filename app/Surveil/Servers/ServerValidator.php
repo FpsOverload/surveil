@@ -2,9 +2,10 @@
 
 namespace App\Surveil\Servers;
 
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
-class ServerValidator extends Validator {
+class ServerValidator {
 
     public function validateCreate($input)
     {
@@ -18,18 +19,23 @@ class ServerValidator extends Validator {
 
     protected function runValidation($input, $rules)
     {
-        $this->extend('server_path', $this->validateServerPath);
-        $this->extend('server_binary', $this->validateServerBinary);
+        Validator::extend('server_path', 'App\Surveil\Servers\ServerValidator@validateServerPath');
+        Validator::extend('server_binary', 'App\Surveil\Servers\ServerValidator@validateServerBinary');
 
+        $validator = Validator::make($input, $rules);
 
+        if ($validator->fails()) {
+            dd($validator->errors()->messages());
+        }
+        
     }
 
     protected function createValidationRules()
     {
         return [
             'name' => 'required|unique:servers',
-            'path' => 'required',
-            'binary' => 'required',
+            'path' => 'required|server_path',
+            'binary' => 'required|server_binary',
             'game' => 'required|in:' . implode(',', available_games()),
             'ip' => 'required',
             'port' => 'required|numeric',
@@ -43,8 +49,8 @@ class ServerValidator extends Validator {
     {
         return [
             'name' => 'required|unique:servers,' . $this->server->id,
-            'path' => 'required',
-            'binary' => 'required',
+            'path' => 'required|server_path',
+            'binary' => 'required|server_binary',
             'game' => 'required|in:' . implode(',', available_games()),
             'ip' => 'required',
             'port' => 'required|numeric',
@@ -54,14 +60,14 @@ class ServerValidator extends Validator {
         ];
     }
 
-    protected function validateServerBinary()
+    public function validateServerBinary($attribute, $value, $parameters, $validator)
     {
-
+        return is_file(rtrim($validator->getData()['path'], '/') . '/' . $value);
     }
 
-    protected function validateServerPath()
+    public function validateServerPath($attribute, $value, $parameters, $validator)
     {
-
+        return is_dir($value);
     }
 
 }
