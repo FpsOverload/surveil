@@ -14,6 +14,9 @@ class ServerIgniter {
      */
     protected $server;
 
+    /* 
+     * Initialize ServerIgniter
+     */
     function __construct(Server $server)
     {
         $this->server = $server;
