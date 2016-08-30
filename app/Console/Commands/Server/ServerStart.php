@@ -27,7 +27,7 @@ class ServerStart extends ServerCommand {
      */
     protected $description = "Start a game server";
 
-    protected $serverIgniter;
+    protected $igniter;
 
     /**
      * Execute the console command.
@@ -37,7 +37,7 @@ class ServerStart extends ServerCommand {
     public function fire()
     {
         $this->serverFromArgument();
-        $this->serverIgniter = new ServerIgniter($this->server);
+        $this->igniter = new ServerIgniter($this->server);
         
         if ($this->option('live')) {
             return $this->startLiveServer();
@@ -48,14 +48,14 @@ class ServerStart extends ServerCommand {
 
     protected function startTmuxServer()
     {
-        if ($this->serverIgniter->start()) {
+        if ($this->igniter->start()) {
             return $this->info('Server "' . $this->server->name . '" started');
         }
     }
 
     protected function startLiveServer()
     {
-        (new Process($this->serverIgniter->startCommand()))->setTimeout(null)->run(function($type, $line)
+        (new Process($this->igniter->startCommand()))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);
         });
