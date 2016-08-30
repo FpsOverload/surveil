@@ -20,8 +20,12 @@ class ServerValidator {
 
     protected function runValidation($input, $rules)
     {
-        Validator::extend('server_path', 'App\Surveil\Servers\ServerValidator@validateServerPath');
-        Validator::extend('server_binary', 'App\Surveil\Servers\ServerValidator@validateServerBinary');
+        Validator::extend('server_path', function($attribute, $value, $parameters, $validator) {
+            return validate_server_path($value);
+        });
+        Validator::extend('server_binary', function($attribute, $value, $parameters, $validator) {
+            return validate_server_binary($value, $validator->getData()['path']);
+        });
 
         $validator = Validator::make($input, $rules);
 
@@ -60,16 +64,6 @@ class ServerValidator {
             'default_params' => 'required',
             'default_surveil' => 'required|boolean'
         ];
-    }
-
-    public function validateServerBinary($attribute, $value, $parameters, $validator)
-    {
-        return is_file(rtrim($validator->getData()['path'], '/') . '/' . $value);
-    }
-
-    public function validateServerPath($attribute, $value, $parameters, $validator)
-    {
-        return is_dir($value);
     }
 
 }
