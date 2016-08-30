@@ -3,6 +3,7 @@
 namespace App\Console\Commands\Server;
 
 use App\Exceptions\CommandFailedException;
+use App\Surveil\Servers\ServerIgniter;
 use Symfony\Component\Process\Process;
 
 class ServerStop extends ServerCommand {
@@ -22,6 +23,8 @@ class ServerStop extends ServerCommand {
      */
     protected $description = "Stop a game server";
 
+    protected $igniter;
+
     /**
      * Execute the console command.
      *
@@ -30,25 +33,11 @@ class ServerStop extends ServerCommand {
     public function fire()
     {
         $this->serverFromArgument();
+        $this->igniter = new ServerIgniter($this->server);
 
-        $process = new Process('tmux kill-session -t "' . prefixedServerName($this->server->name) . '"');
-        $process->setTimeout(10);
-        $process->run();
-
-
-        if (!$process->isSuccessful()) {
-            if ($this->serverOnline($this->server->name)) {
-                throw new CommandFailedException('Server "' . $this->server->name . '" failed to stop');
-            }
-
-            return $this->info('Server "' . $this->server->name . '" already stopped');
+        if ($this->igniter->stop()) {
+            return $this->info('Server "' . $this->server->name . '" stopped');
         }
-
-        if ($this->serverOnline($this->server->name)) {
-            throw new CommandFailedException('Server "' . $this->server->name . '" failed to stop');
-        }
-
-        return $this->info('Server "' . $this->server->name . '" stopped');
     }
 
 }
