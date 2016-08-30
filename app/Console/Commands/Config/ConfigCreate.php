@@ -4,10 +4,11 @@ namespace App\Console\Commands\Config;
 
 use App\Config;
 use App\Configuration;
+use App\Console\Commands\Command;
 use App\Exceptions\NameExistsException;
 use Illuminate\Database\QueryException;
 
-class ConfigCreate extends ConfigCommand {
+class ConfigCreate extends Command {
     
     /**
      * The console command name.
