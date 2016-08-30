@@ -23,3 +23,13 @@ if (! function_exists('logPath')) {
         return config('surveil.logPath') . $logName . '.log';
     }
 }
+
+if (! function_exists('available_games')) {
+    /**
+     * Get available games.
+     */
+    function available_games()
+    {
+        return config('surveil.games');
+    }
+}
