@@ -802,6 +802,9 @@ html {
   -webkit-box-flex: 0;
   flex: 0 240px; }
 
+#page-container {
+  padding-top: 80px; }
+
 .float-left {
   float: left; }
 

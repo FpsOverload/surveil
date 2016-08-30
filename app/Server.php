@@ -2,11 +2,17 @@
 
 namespace App;
 
+use App\Presenters\ServerPresenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Laracasts\Presenter\PresentableTrait;
 
 class Server extends Model
 {
+
+    use PresentableTrait;
+
+    protected $presenter = ServerPresenter::class;
 
     /**
      * The attributes that are mass assignable.
