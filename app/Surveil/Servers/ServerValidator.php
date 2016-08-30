@@ -2,6 +2,7 @@
 
 namespace App\Surveil\Servers;
 
+use App\Exceptions\ServerCreationException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,7 +26,7 @@ class ServerValidator {
         $validator = Validator::make($input, $rules);
 
         if ($validator->fails()) {
-            throw new \Exception(implode(' ', $validator->errors()->all()));
+            throw new ServerCreationException($validator->errors());
         }
         
         return true;
