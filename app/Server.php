@@ -36,6 +36,11 @@ class Server extends Model
         return $query;
     }
 
+    public function getPrefixedNameAttribute()
+    {
+        return prefixedServerName($this->name);
+    }
+
     public function configs()
     {
         return $this->hasMany(Configuration::class);
