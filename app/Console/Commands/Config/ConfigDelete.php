@@ -4,11 +4,12 @@ namespace App\Console\Commands\Config;
 
 use App\Config;
 use App\Configuration;
+use App\Console\Commands\Command;
 use App\Exceptions\InvalidConfigException;
 use App\Exceptions\NameExistsException;
 use Illuminate\Database\QueryException;
 
-class ConfigDelete extends ConfigCommand {
+class ConfigDelete extends Command {
     
     /**
      * The console command name.

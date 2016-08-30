@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands\Server;
 
-class ServerDelete extends ServerCommand {
+use App\Console\Commands\Command;
+
+class ServerDelete extends Command {
     
     /**
      * The console command name.

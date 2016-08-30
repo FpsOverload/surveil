@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Console\Commands\Command;
 use App\Exceptions\CommandFailedException;
 use App\Surveil\Servers\ServerIgniter;
 use Symfony\Component\Process\Process;
 
-class ServerStop extends ServerCommand {
+class ServerStop extends Command {
     
     /**
      * The console command name.

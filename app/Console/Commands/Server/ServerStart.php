@@ -2,13 +2,14 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Console\Commands\Command;
 use App\Exceptions\CommandFailedException;
 use App\Exceptions\InvalidServerException;
 use App\Exceptions\ProcessFailedException;
 use App\Surveil\Servers\ServerIgniter;
 use Symfony\Component\Process\Process;
 
-class ServerStart extends ServerCommand {
+class ServerStart extends Command {
     
     /**
      * The console command name.

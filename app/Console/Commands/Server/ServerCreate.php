@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Console\Commands\Command;
 use App\Exceptions\NameExistsException;
 use Illuminate\Database\QueryException;
 
-class ServerCreate extends ServerCommand {
+class ServerCreate extends Command {
     
     /**
      * The console command name.

@@ -2,9 +2,11 @@
 
 namespace App\Console\Commands\Server;
 
+use App\Console\Commands\Command;
+use App\Surveil\Servers\ServerIgniter;
 use Symfony\Component\Console\Helper\TableStyle;
 
-class ServerStatus extends ServerCommand {
+class ServerStatus extends Command {
     
     /**
      * The console command name.
@@ -31,9 +33,10 @@ class ServerStatus extends ServerCommand {
         $tableStyle->setCellHeaderFormat('<fg=yellow>%s</>');
 
         $servers = $this->server->all()->transform(function ($item, $key) {
+            $igniter = new ServerIgniter($item);
             $item = collect($item)->only(['name', 'path', 'binary', 'game', 'ip', 'port', 'params', 'surveil']);
             $item['surveil'] = $item['surveil'] ? 'Enabled' : 'Disabled';
-            //$item['status'] = $this->serverOnline($item['name']) ? '<fg=blue>Online</>' : '<fg=red>Offline</>';
+            $item['status'] = $igniter->online() ? '<fg=blue>Online</>' : '<fg=red>Offline</>';
             return $item;
         });
 
