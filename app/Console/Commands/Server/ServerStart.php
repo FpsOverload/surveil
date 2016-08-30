@@ -5,6 +5,7 @@ namespace App\Console\Commands\Server;
 use App\Exceptions\CommandFailedException;
 use App\Exceptions\InvalidServerException;
 use App\Exceptions\ProcessFailedException;
+use App\Surveil\Servers\ServerIgniter;
 use Symfony\Component\Process\Process;
 
 class ServerStart extends ServerCommand {
@@ -26,7 +27,7 @@ class ServerStart extends ServerCommand {
      */
     protected $description = "Start a game server";
 
-    protected $gameCommand = '';
+    protected $serverIgniter;
 
     /**
      * Execute the console command.
@@ -36,7 +37,7 @@ class ServerStart extends ServerCommand {
     public function fire()
     {
         $this->serverFromArgument();
-        $this->buildCommand();
+        $this->serverIgniter = new ServerIgniter($this->server);
         
         if ($this->option('live')) {
             return $this->startLiveServer();
@@ -45,48 +46,16 @@ class ServerStart extends ServerCommand {
         return $this->startTmuxServer();
     }
 
-    protected function buildCommand()
-    {
-        $params = $this->server->params;
-        if ($this->argument('configName')) {
-            $config = $this->server->configs()->where('name', $this->argument('configName'))->first();
-
-            if (! $config) {
-                throw new InvalidServerException(trans('servers.config.not_found_for', ['name' => $this->argument('configName'), 'server' => $this->server->name]));
-            }
-
-            $params = $config->params;
-        }
-
-        $this->gameCommand = 'cd ' . $this->server->path . ' && ./' . $this->server->binary . ' ' . $params;
-    }
-
     protected function startTmuxServer()
     {
-        $command = 'tmux new-session -d -s "' . prefixedServerName($this->server->name) . '" "' . $this->gameCommand . '" 2> ' . logPath($this->server->name, 'error');
-
-        $process = new Process($command);
-        $process->setTimeout(10);
-        $process->run();
-
-        if (!$process->isSuccessful()) {
-            if ($this->serverOnline($this->server->name)) {
-                return $this->info('Server "' . $this->server->name . '" already running');
-            }
-
-            throw new CommandFailedException('Server "' . $this->server->name . '" failed to start');
-        }
-
-        if ($this->serverOnline($this->server->name)) {
+        if ($this->serverIgniter->start()) {
             return $this->info('Server "' . $this->server->name . '" started');
         }
-
-        throw new CommandFailedException('Server "' . $this->server->name . '" failed to start');
     }
 
     protected function startLiveServer()
     {
-        (new Process($this->gameCommand))->setTimeout(null)->run(function($type, $line)
+        (new Process($this->serverIgniter->startCommand()))->setTimeout(null)->run(function($type, $line)
         {
             $this->info($line);
         });
