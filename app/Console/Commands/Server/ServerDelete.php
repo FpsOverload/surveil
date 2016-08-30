@@ -3,6 +3,8 @@
 namespace App\Console\Commands\Server;
 
 use App\Console\Commands\Command;
+use App\Surveil\Servers\ServerManager;
+use Illuminate\Support\Facades\App;
 
 class ServerDelete extends Command {
     
@@ -45,11 +47,11 @@ class ServerDelete extends Command {
 
     protected function delete()
     {
-        $this->server->delete();
+        $manager = App::make(ServerManager::class, [$this->server]);
 
-        $this->info(trans('servers.delete.success'));
-
-        return;
+        if ($manager->destroy()) {
+            return $this->info(trans('servers.delete.success'));
+        }
     }
 
 }

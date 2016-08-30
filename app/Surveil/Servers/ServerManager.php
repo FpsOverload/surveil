@@ -33,7 +33,7 @@ class ServerManager {
 
     public function destroy()
     {
-
+        return $this->server->delete();
     }
 
     public function update()
