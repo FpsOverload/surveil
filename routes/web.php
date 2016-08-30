@@ -16,3 +16,5 @@ $router->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetFo
 $router->post('password/reset', 'Auth\ResetPasswordController@reset');
 
 $router->get('/', 'HomeController@index');
+
+$router->get('dash', 'Dashboard\OverviewController@index')->name('dash.overview');
