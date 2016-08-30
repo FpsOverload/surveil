@@ -93,11 +93,8 @@ return [
     |
     */
 
-    'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
-        ],
-    ],
+    'server_path' => 'Path is not a valid directory.',
+    'server_binary' => 'Binary not found.',
 
     /*
     |--------------------------------------------------------------------------
