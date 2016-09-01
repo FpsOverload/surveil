@@ -12,12 +12,12 @@
             </div>
         </header>
         <div class="server-banner-content flex flex-space-btwn flex-align-center">
-            <div class="status">
-                <a class="connect" href="#">arma3.fpsoverload.com</a>
-            </div>
             <div class="overview">
-                <span data-title="Players">34/64</span>
-                <span data-title="Map">Tanoa</span>
+                <a class="multi-line connect" href="#" data-title="Connect">arma3.fpsoverload.com<span class="port">:1025</span></a>
+            </div>
+            <div class="overview flex flex-align-center">
+                <span class="multi-line" data-title="Players">34/64</span>
+                <span class="multi-line" data-title="Map">Tanoa</span>
                 <a class="btn btn-small" href="#">+Info</a>
                 <a class="btn btn-small" href="#">Stats</a>
             </div>
