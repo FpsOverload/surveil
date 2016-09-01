@@ -1,3 +1,5 @@
+@include('_partials.svg')
+
 <header id="main-page-header">
     <h1>Surveil <small>Simple Server Management</small></h1>
     <nav>
