@@ -1,11 +1,11 @@
 <template>
     <div class="server-banner">
-        <header :style="{ backgroundImage: 'url(' + image + ')' }">
+        <header :style="{ backgroundImage: 'url(' + data.image + ')' }">
             <div class="titles flex flex-align-center">
                 <span class="status-button offline">Offline</span>
                 <span class="game-logo">
                     <svg width="100" height="100">
-                        <use xlink:href="#arma3-logo" />
+                        <use xlink:href="#{{ data.game }}-logo" />
                     </svg>
                 </span>
                 <h3 class="server-name">My Server Name Goes Here!</h3>
@@ -13,7 +13,7 @@
         </header>
         <div class="server-banner-content flex flex-space-btwn flex-align-center">
             <div class="overview">
-                <a class="multi-line connect" href="#" data-title="Connect">arma3.fpsoverload.com<span class="port">:1025</span></a>
+                <a class="multi-line connect" href="#" data-title="Connect">{{ data.host }}<span class="port">:{{ data.port }}</span></a>
             </div>
             <div class="overview flex flex-align-center">
                 <span class="multi-line" data-title="Players">34/64</span>
@@ -28,7 +28,7 @@
 <script>
     export default {
         props: {
-            image: '',
+            data: {},
         },
         ready() {
             console.log('Component ready.')

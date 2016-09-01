@@ -5,7 +5,7 @@
 <div>
     @foreach($servers as $server)
 
-        <server image="{{ $server->present()->image }}"></server>
+        <server :data="{{ $server->present()->json }}"></server>
 
     @endforeach
 </div>
