@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="text-center">
+<div>
     @foreach($servers as $server)
 
         <server image="{{ $server->present()->image }}"></server>

@@ -1,25 +1,74 @@
 .server-banner
     max-width: 640px
     margin: 3rem auto
+    border-radius: 4px
+    overflow: hidden;
 
     header
         height: 110px
         background-size: cover
+        position: relative
 
     header > .titles
         height: 100%
         width: 100%
-        display: flex
-        align-items: center
         padding: 1rem
         background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.2) 100%)
 
     header > .titles .game-logo
-        margin-left: 1rem
+        margin-left: 2rem
         font-size: 0
 
     header > .titles .server-name
-        margin: 0 1.5rem
-        font-size: 1.8rem
+        margin: 0 2.5rem
+        font-size: 1.6rem
         font-weight: 400
+        letter-spacing: 0.02rem
         color: $light-color
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5)
+
+.server-banner header .status-button
+    position: absolute
+    right: 0
+    top: 0
+    padding: 4px 15px
+    font-size: 1.4rem
+    font-weight: 300
+    border-radius: 0 0 0 4px
+    color: $light-color
+
+    &.online
+        background: $green-color
+
+    &.offline 
+        background: $red-color
+
+
+.server-banner .server-banner-content
+    padding: 1.5rem
+    background: $light-color
+
+    a.connect
+        color: $color-primary
+        font-size: 1.5rem
+
+    .overview
+        font-size: 1.5rem
+        position: relative
+
+        .btn:first-of-type 
+            margin-right: 1rem
+
+        span 
+            margin: 0 1.5rem
+            position: relative
+            top: 7px
+            font-weight: 600
+
+        span:before 
+            font-weight: 300
+            content: attr(data-title);
+            font-size: 1.3rem
+            position: absolute
+            top: -18px
+            color: $color-primary
