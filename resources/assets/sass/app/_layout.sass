@@ -1,0 +1,49 @@
+$sidebar-width: 240px
+$sidebar-width-collapsed: 80px
+
+body,
+html
+    height: 100%
+    background: rgb(234, 234, 234)
+
+#main-page-header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    height: 80px
+    width: 100%
+    position: fixed
+    background: $dark-color
+    border-bottom: 1px solid $dark-color
+
+    h1
+        width: $sidebar-width
+        text-align: center
+        margin: 0
+        font-size: 28px
+        letter-spacing: 0.05rem
+        color: rgba(255, 255, 255, 0.8)
+
+        small
+            margin-top: 5px
+            display: block
+            font-size: 14px
+
+    nav ul
+        padding: 0 2rem
+        margin: 0
+        list-style-type: none
+
+        li
+            display: inline-block
+            margin-left: 2rem
+
+#main-page-container
+    padding-top: 80px
+    height: 100%
+    background: lighten($dark-color, 2.5)
+    width: $sidebar-width
+    flex: 0 $sidebar-width
+
+#page-container
+    padding-top: 80px

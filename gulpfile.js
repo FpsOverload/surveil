@@ -14,7 +14,7 @@ require('laravel-elixir-vue');
  */
 
 elixir(mix => {
-    mix.sass('app.scss')
+    mix.sass('app.sass')
        .webpack('app.js')
        .browserSync({
             open: false,
