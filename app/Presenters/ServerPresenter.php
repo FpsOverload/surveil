@@ -6,9 +6,19 @@ use Laracasts\Presenter\Presenter;
 
 class ServerPresenter extends Presenter {
 
+    public function map_slug()
+    {
+        return null;
+    }
+
     public function image()
     {
-        return '/images/games/' . $this->entity->game . '/' . $this->entity->game . '_tanoa.jpg';
+        $map_slug = 'default';
+        if ($this->map_slug) {
+            $map_slug = $this->map_slug;
+        }
+
+        return '/images/games/' . $this->entity->game . '/' . $this->entity->game . '_' . $map_slug . '.jpg';
     }
 
     public function address()
