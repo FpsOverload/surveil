@@ -3,6 +3,7 @@
 namespace App\Surveil\Rcon;
 
 use App\Exceptions\RconImplementationNotFoundException;
+use App\Surveil\Rcon\Specific\Arma3;
 use App\Surveil\Rcon\Specific\Cod4;
 
 class RconClient {
@@ -10,7 +11,8 @@ class RconClient {
     public $connection;
 
     protected $rconImplementations = [
-        'cod4' => Cod4::class
+        'cod4' => Cod4::class,
+        'arma3' => Arma3::class
     ];
 
     function __construct($server = null)

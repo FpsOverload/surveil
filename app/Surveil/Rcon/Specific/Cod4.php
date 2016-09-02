@@ -28,7 +28,7 @@ class Cod4 extends Quake3 implements RconInterface {
                 '(?P<qport>-?[0-9]{1,5})\s+' .
                 '(?P<rate>[0-9]+)';
 
-        $response = $this->sendCommand('rcon '.$this->server['server_rcon'].' status');
+        $response = $this->sendCommand('rcon '.$this->server->rcon.' status');
 
         $response = collect(explode("\n", $response))->map(function ($line, $key) use ($regex) {
             preg_match('/' . $regex . '/', $line, $matches);
@@ -52,7 +52,7 @@ class Cod4 extends Quake3 implements RconInterface {
         return $response;
     }
 
-    public function serverOverview()
+    public function overview()
     {
         $response['players'] = $this->serverStatus();
         $response['info'] = $this->serverInfo();
@@ -60,16 +60,16 @@ class Cod4 extends Quake3 implements RconInterface {
         return $response;
     }
 
-    public function serverMap()
+    public function map()
     {
-        return $this->getCvar('map_name');
+        return $this->getCvar('mapname');
     }
 
     public function getCvar($cvar)
     {
         $regex = '^"(?P<cvar>[a-z0-9_.]+)"\s+is:\s*"(?P<value>.*?)(\^7)?"\s+default:\s*"(?P<default>.*?)(\^7)?"$';
 
-        $response = $this->sendCommand('rcon ' . $this->server['server_rcon'] . ' ' . $cvar);
+        $response = $this->sendCommand('rcon ' . $this->server->rcon . ' ' . $cvar);
 
         preg_match('/' . $regex . '/', $response, $matches);
 

@@ -13,7 +13,7 @@ class Quake3 extends BaseSystem {
         $this->prefix = str_repeat(chr(255), 4);
         $this->responsePrefix = $this->prefix;
 
-        $this->socket = fsockopen("udp://" . $server['server_ip'], $server['server_port'], $errno, $errstr, 30);
+        $this->socket = fsockopen("udp://" . $server->ip, $server->port, $errno, $errstr, 30);
 
         if (!$this->socket) {
             throw new \Exception("Could not connect to server.");

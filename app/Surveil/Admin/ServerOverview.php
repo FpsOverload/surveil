@@ -32,14 +32,14 @@ class ServerOverview {
             'port' => $this->server->port,
             'players' => '--',
             'max_players' => '--',
-            'map_slug' => $this->map_slug() ? $this->map_slug() : '--',
-            'online' => false
+            'map_slug' => $this->online() ? $this->map_slug() : '--',
+            'online' => $this->online()
         ]);
     }
 
     public function map_slug()
     {
-        return $this->rcon->connection->serverMap();
+        return $this->rcon->connection->map();
     }
 
     public function image()
