@@ -34,7 +34,8 @@ class ServerPresenter extends Presenter {
             'game' => $this->entity->game,
             'address' => $this->address,
             'host' => $this->entity->ip,
-            'port' => $this->entity->port
+            'port' => $this->entity->port,
+            'online' => false
         ]);
     }
 

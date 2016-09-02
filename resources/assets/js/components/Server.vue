@@ -2,7 +2,7 @@
     <div class="server-banner">
         <header :style="{ backgroundImage: 'url(' + data.image + ')' }">
             <div class="titles flex flex-align-center">
-                <span class="status-button offline">Offline</span>
+                <span class="status-button" :class="data.online ? 'online' : 'offline'">{{ data.online ? 'Online' : 'Offline' }}</span>
                 <span class="game-logo">
                     <svg width="100" height="100">
                         <use xlink:href="#{{ data.game }}-logo" />
