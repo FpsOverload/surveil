@@ -8,7 +8,8 @@
         "php": ">=5.6.4",
         "laravel/framework": "5.3.*",
         "supervisorphp/configuration": "^0.2.1",
-        "laracasts/presenter": "^0.2.1"
+        "laracasts/presenter": "^0.2.1",
+        "olumby/php-rcon": "dev-master"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -51,5 +52,11 @@
     },
     "config": {
         "preferred-install": "dist"
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/olumby/phpRcon"
+        }
+    ]
 }

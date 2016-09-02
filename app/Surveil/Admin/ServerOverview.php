@@ -3,8 +3,8 @@
 namespace App\Surveil\Admin;
 
 use App\Server;
-use App\Surveil\Rcon\RconClient;
 use App\Surveil\Servers\ServerIgniter;
+use CmdSft\phpRcon\GuestClient;
 
 class ServerOverview {
 
@@ -14,7 +14,8 @@ class ServerOverview {
     {
         $this->server = $server;
         $this->igniter = new ServerIgniter($server);
-        $this->rcon = new RconClient($server);
+        $this->rcon = new GuestClient($server->game, $server->ip, $server->port);
+        $this->translator = new ServerTranslator($server->game);
     }
 
     public function online()
@@ -30,22 +31,32 @@ class ServerOverview {
             'game' => $this->server->game,
             'host' => $this->server->ip,
             'port' => $this->server->port,
-            'players' => '--',
-            'max_players' => '--',
+            'players' => $this->online() ? count($this->players()) : '--',
+            'max_players' => $this->online() ? $this->max_players() : '--',
             'map_slug' => $this->online() ? $this->map_slug() : '--',
             'map' => $this->online() ? $this->map_name() : '--',
             'online' => $this->online()
         ]);
     }
 
+    public function players()
+    {
+        return $this->rcon->connection->getPlayers();
+    }
+
+    public function max_players()
+    {
+        return $this->rcon->connection->getMaxPlayers();
+    }
+
     public function map_slug()
     {
-        return $this->rcon->connection->map_slug();
+        return $this->rcon->connection->getCurrentMap();
     }
 
     public function map_name()
     {
-        return $this->rcon->connection->map();
+        return $this->translator->mapName($this->map_slug());
     }
 
     public function image()
