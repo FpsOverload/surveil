@@ -7,11 +7,17 @@ use App\Surveil\Rcon\Specific\System\Quake3;
 
 class Cod4 extends Quake3 implements RconInterface {
 
+    protected $maps = [
+        'mp_crossfire' => 'Crossfire',
+    ];
+
     function __construct($server)
     {
         parent::__construct($server);
         
         $this->responsePrefix = $this->prefix . "print\n";
+
+        $this->maps = array_merge($this->maps, config('surveil.maps.cod4'));
     }
 
     public function serverStatus()
@@ -61,6 +67,17 @@ class Cod4 extends Quake3 implements RconInterface {
     }
 
     public function map()
+    {
+        $slug = $this->map_slug();
+
+        if (isset($this->maps[$slug])) {
+            return $this->maps[$slug];
+        }
+
+        return $slug;
+    }
+
+    public function map_slug()
     {
         return $this->getCvar('mapname');
     }

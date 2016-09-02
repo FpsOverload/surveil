@@ -6,9 +6,9 @@ return [
 
     'logPath' => storage_path('logs/'),
 
-    'games' => ['cod4', 'cod4x', 'arma3']
+    'games' => ['cod4', 'cod4x', 'arma3'],
 
-    'map_names' => [
+    'maps' => [
         'cod4' => [
             'mp_custom_example' => 'Custom Map Name',
         ],

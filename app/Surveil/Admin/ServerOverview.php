@@ -33,11 +33,17 @@ class ServerOverview {
             'players' => '--',
             'max_players' => '--',
             'map_slug' => $this->online() ? $this->map_slug() : '--',
+            'map' => $this->online() ? $this->map_name() : '--',
             'online' => $this->online()
         ]);
     }
 
     public function map_slug()
+    {
+        return $this->rcon->connection->map_slug();
+    }
+
+    public function map_name()
     {
         return $this->rcon->connection->map();
     }

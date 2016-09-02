@@ -14,4 +14,9 @@ class Arma3 implements RconInterface {
         return null;
     }
 
+    public function map_slug()
+    {
+        return null;
+    }
+
 }

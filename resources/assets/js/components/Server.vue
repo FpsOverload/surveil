@@ -17,7 +17,7 @@
             </div>
             <div class="overview flex flex-align-center">
                 <span class="multi-line" data-title="Players">{{ data.players }}/{{ data.max_players }}</span>
-                <span class="multi-line" data-title="Map">{{ data.map_slug }}</span>
+                <span class="multi-line" data-title="Map">{{ data.map }}</span>
                 <a class="btn btn-small" href="#">+Info</a>
                 <a class="btn btn-small" href="#">Stats</a>
             </div>
