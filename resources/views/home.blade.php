@@ -5,7 +5,7 @@
 <div>
     @foreach($servers as $server)
 
-        <server :data="{{ $server->present()->json }}"></server>
+        <server :data="{{ $server->json() }}"></server>
 
     @endforeach
 </div>

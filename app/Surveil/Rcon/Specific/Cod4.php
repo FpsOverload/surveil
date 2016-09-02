@@ -60,6 +60,11 @@ class Cod4 extends Quake3 implements RconInterface {
         return $response;
     }
 
+    public function serverMap()
+    {
+        return $this->getCvar('map_name');
+    }
+
     public function getCvar($cvar)
     {
         $regex = '^"(?P<cvar>[a-z0-9_.]+)"\s+is:\s*"(?P<value>.*?)(\^7)?"\s+default:\s*"(?P<default>.*?)(\^7)?"$';

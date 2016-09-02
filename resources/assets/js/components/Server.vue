@@ -16,8 +16,8 @@
                 <a class="multi-line connect" href="#" data-title="Connect">{{ data.host }}<span class="port">:{{ data.port }}</span></a>
             </div>
             <div class="overview flex flex-align-center">
-                <span class="multi-line" data-title="Players">34/64</span>
-                <span class="multi-line" data-title="Map">Tanoa</span>
+                <span class="multi-line" data-title="Players">{{ data.players }}/{{ data.max_players }}</span>
+                <span class="multi-line" data-title="Map">{{ data.map_slug }}</span>
                 <a class="btn btn-small" href="#">+Info</a>
                 <a class="btn btn-small" href="#">Stats</a>
             </div>

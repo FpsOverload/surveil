@@ -13,16 +13,23 @@ class RconClient {
         'cod4' => Cod4::class
     ];
 
+    function __construct($server = null)
+    {
+        if ($server) {
+            $this->setupRcon($server);
+        }
+    }
+
     public function setupRcon($server)
     {
-        if (!isset($server['server_game'])) {
+        if (!isset($server->game)) {
             throw new RconImplementationNotFoundException("Server game not set");
         }
 
         try {
-            $rconClass = $this->rconImplementations[$server['server_game']];
+            $rconClass = $this->rconImplementations[$server->game];
         } catch (\Exception $e) {
-            throw new RconImplementationNotFoundException("No implementation for game: " . $server['server_game']);
+            throw new RconImplementationNotFoundException("No implementation for game: " . $server->game);
         }
 
         $this->connection = new $rconClass($server);
