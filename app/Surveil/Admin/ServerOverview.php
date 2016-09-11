@@ -14,8 +14,11 @@ class ServerOverview {
     {
         $this->server = $server;
         $this->igniter = new ServerIgniter($server);
-        $this->rcon = new GuestClient($server->game, $server->ip, $server->port);
         $this->translator = new ServerTranslator($server->game);
+
+        if ($this->igniter->online()) {
+            $this->rcon = new GuestClient($server->game, $server->ip, $server->port);
+        }
     }
 
     public function online()
@@ -41,22 +44,30 @@ class ServerOverview {
 
     public function players()
     {
-        return $this->rcon->connection->getPlayers();
+        if ($this->online()) {
+            return $this->rcon->connection->getPlayers();
+        }
     }
 
     public function max_players()
     {
-        return $this->rcon->connection->getMaxPlayers();
+        if ($this->online()) {
+            return $this->rcon->connection->getMaxPlayers();
+        }
     }
 
     public function map_slug()
     {
-        return $this->rcon->connection->getCurrentMap();
+        if ($this->online()) {
+            return $this->rcon->connection->getCurrentMap();
+        }
     }
 
     public function map_name()
     {
-        return $this->translator->mapName($this->map_slug());
+        if ($this->online()) {
+            return $this->translator->mapName($this->map_slug());
+        }
     }
 
     public function image()
